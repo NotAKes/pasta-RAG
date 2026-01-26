@@ -14,7 +14,7 @@ from bot import dp, bot, async_session_maker
 async def cmd_start(message: types.Message, session: async_session_maker):
     # statement = select(User).where(User.name == "Spider-Boy")
     # result = await session.execute(statement)
-    # print(result.scalars().one())
+    # print(result.scalars().one()) цуа
 
     await message.answer("Привет!👋 Я бот, определяющий погоду:")
     # await menu(message)

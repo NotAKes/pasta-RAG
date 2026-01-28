@@ -1,24 +1,43 @@
 import asyncio
 import os
-
 from aiogram import Bot, Dispatcher
 from aiogram import types
 from aiogram.filters.command import Command
 from dotenv import load_dotenv
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
+from sqlmodel import select
 from sqlalchemy.orm import declarative_base
 from middleware import DbSessionMiddleware
-from bot import dp, bot, async_session_maker
+from models import User
+from bot import dp, bot
+from sqlalchemy.ext.asyncio import AsyncSession
+
 
 @dp.message(Command("start"))
-async def cmd_start(message: types.Message, session: async_session_maker):
-    # statement = select(User).where(User.name == "Spider-Boy")
-    # result = await session.execute(statement)
-    # print(result.scalars().one()) цуа
+async def cmd_start(message: types.Message, session: AsyncSession):
+    user_id_str = str(message.from_user.id)
+    statement = select(User).where(User.tg_id == user_id_str)
+    result = await session.execute(statement)
+    user = result.scalar_one_or_none()
+    if user is None:
+        print(f"Creating new user: {message.from_user.full_name}")
+        user = User(
+            name=message.from_user.full_name,
+            tg_id=user_id_str,
+            username=message.from_user.username,
+            platform="telegram",
+            languages='ru'
+        )
+        session.add(user)
+        await session.commit()
+        await session.refresh(user)
+    else:
+        print(f"User found: {user.name}")
 
-    await message.answer("Привет!👋 Я бот, определяющий погоду:")
-    # await menu(message)
-
+    await message.answer(
+        f"Привет, {user.name}!👋\n"
+        f"Ваш ID в системе: {user.tg_id}"
+    )
 
 # async def menu(message: types.Message):
 #     inp = [

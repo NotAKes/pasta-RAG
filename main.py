@@ -1,18 +1,19 @@
 import asyncio
 import os
 
+from sqlmodel import SQLModel
+
+import models
 from bot import dp, bot
 from aiogram import types
 from aiogram.filters.command import Command
 from dotenv import load_dotenv
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
-from sqlalchemy.orm import declarative_base
+from sqlalchemy import Column, text
 from bot import engine, async_session_maker
-# from handlers import cmd_start
 from middleware import DbSessionMiddleware
 
 load_dotenv()
-Base = declarative_base()
 USER = os.getenv("user")
 PASSWORD = os.getenv("password")
 HOST = os.getenv("host")
@@ -35,8 +36,13 @@ import handlers
 
 async def main():
     async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.drop_all)
-        await conn.run_sync(Base.metadata.create_all)
+        await conn.run_sync(SQLModel.metadata.create_all)
+        default_policy = text(
+            """
+        ALTER TABLE users ENABLE ROW LEVEL SECURITY;
+        """
+        )
+        await conn.execute(default_policy)
 
     dp.update.middleware(DbSessionMiddleware(session_pool=async_session_maker))
     await dp.start_polling(bot)

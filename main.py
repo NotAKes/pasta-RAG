@@ -13,6 +13,7 @@ from sqlalchemy import Column, text
 from bot import engine, async_session_maker
 from middleware import DbSessionMiddleware
 
+user_histories = {}
 load_dotenv()
 USER = os.getenv("user")
 PASSWORD = os.getenv("password")
@@ -23,7 +24,9 @@ DATABASE_URL = f"postgresql+asyncpg://{USER}:{PASSWORD}@{HOST}:{PORT}/{DBNAME}"
 
 load_dotenv()
 import handlers
+
 chat_storage = {}
+
 
 async def main():
     async with engine.begin() as conn:
@@ -37,7 +40,6 @@ async def main():
 
     dp.update.middleware(DbSessionMiddleware(session_pool=async_session_maker))
     await dp.start_polling(bot)
-
 
 
 if __name__ == "__main__":

@@ -1,7 +1,8 @@
 import asyncio
 import os
-from aiogram import Bot, Dispatcher
-from aiogram import types
+from ai_service import get_ai_answer
+from get_context import search
+from aiogram import types, F
 from aiogram.filters.command import Command
 from dotenv import load_dotenv
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
@@ -38,7 +39,11 @@ async def cmd_start(message: types.Message, session: AsyncSession):
         f"Привет, {user.name}!👋\n"
         f"Ваш ID в системе: {user.tg_id}"
     )
-
+@dp.message(F.text)
+async def answer(message: types.Message, session: AsyncSession):
+    context = search(message.text)
+    answer = await get_ai_answer(message.text, context)
+    await message.answer(answer)
 # async def menu(message: types.Message):
 #     inp = [
 #         [

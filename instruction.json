@@ -1,0 +1,357 @@
+[
+  {
+    "text": "Dish: Pasta Mushrooms. Description: Tender fettuccine infused with the deep, earthy flavour of aromatic mushrooms. Sautéed with garlic, then finished with a lush cream sauce. Price: 300 PHP. / Блюдо: Паста с грибами. Описание: Нежные фетучини, пропитанные глубоким землистым ароматом грибов. Обжарены с чесноком и дополнены пышным сливочным соусом. Цена: 300 PHP.",
+    "metadata": {
+      "categories": ["menu", "pasta", "vegetarian", "main_dish", "mushrooms"],
+      "dish_name": "Pasta Mushrooms",
+      "price": 300
+    }
+  },
+  {
+    "text": "Dish: Pasta Classic. A timeless Italian delight. Al dente fettuccine coated in a velvety, rich cream sauce with fresh garlic, finished with grated Parmesan. Price: 250 PHP / Блюдо: Классическая паста. Нестареющий итальянский шедевр. Фетучини аль денте в бархатистом насыщенном сливочном соусе со свежим чесноком и тертым пармезаном. Цена: 250 PHP",
+    "metadata": {
+      "categories": ["menu", "pasta", "main_dish"],
+      "dish_name": "Pasta Classic",
+      "price": 250
+    }
+  },
+  {
+    "text": "Dish: Pasta Chicken. Comfort in a bowl! Juicy slices of grilled chicken breast nestled in our signature creamy sauce, tossed with fettuccine, garlic. Price: 320 PHP / Блюдо: Паста с курицей. Уют в одной тарелке! Сочные ломтики куриной грудки на гриле в нашем фирменном сливочном соусе с Фетучини и чесноком. Цена: 320 PHP",
+    "metadata": {
+      "categories": ["menu", "pasta", "main_dish", "chicken"],
+      "dish_name": "Pasta Chicken",
+      "price": 320
+    }
+  },
+  {
+    "text": "Dish: Pasta Prawns+Pesto. A vibrant, Mediterranean escape. Plump, juicy prawns tossed with aromatic homemade basil pesto, fresh cream, and tender fettuccine. Price: 360 PHP / Блюдо: Паста с креветками и песто. Яркий средиземноморский вкус. Крупные сочные креветки с ароматным домашним песто из базилика, свежими сливками и нежной Фетучини. Цена: 360 PHP",
+    "metadata": {
+      "categories": ["menu", "pasta", "main_dish", "prawn"],
+      "dish_name": "Pasta Prawns+Pesto",
+      "price": 360
+    }
+  },
+  {
+    "text": "Dish: Pasta Mushrooms and Chicken. Tender chunks of golden-seared chicken fillet and a medley of fragrant forest mushrooms. All bathed in our signature rich and velvety cream sauce, served over perfectly cooked fettuccine. Comfort and pure indulgence in every bite! Price: 310 PHP / Блюдо: Паста с грибами и курицей. Нежные кусочки золотистого куриного филе и ассорти ароматных лесных грибов. Всё это в фирменном густом сливочном соусе с идеально приготовленной Фетучини. Настоящее наслаждение в каждом кусочке! Цена: 310 PHP",
+    "metadata": {
+      "categories": ["menu", "pasta", "main_dish", "chicken", "mushrooms"],
+      "dish_name": "Pasta Mushrooms and Chicken",
+      "price": 310
+    }
+  },
+  {
+    "text": "Dish: Pasta Salmon Pesto. Flaky smoked salmon meets our bright, herby pesto and smooth cream. A delightful balance of smoky richness and garden freshness. Price: 360 PHP / Блюдо: Паста с лососем и песто. Ломтики копченого лосося в сочетании с ярким травяным песто и нежными сливками. Превосходный баланс дымной насыщенности и садовой свежести. Цена: 360 PHP",
+    "metadata": {
+      "categories": ["menu", "pasta", "main_dish", "salmon"],
+      "dish_name": "Pasta Salmon Pesto",
+      "price": 360
+    }
+  },
+  {
+    "text": "Dish: Bolognese. A slow-simmered, rich meat ragu (sauce) with lean ground meat, aromatic vegetables. Served over perfectly al dente spaghetti and finished with a generous dusting of aged Parmesan cheese. Pure comfort and flavour. Price: 290 PHP / Блюдо: Болоньезе. Насыщенное мясное рагу долгого томления из нежирного говяжьего фарша с ароматными овощами. Подается со спагетти аль денте и щедрой порцией тертого выдержанного пармезана. Настоящий вкус и уют. Цена: 290 PHP",
+    "metadata": {
+      "categories": ["menu", "pasta", "main_dish", "meat"],
+      "dish_name": "Bolognese",
+      "price": 290
+    }
+  },
+  {
+    "text": "Dish: Spaghetti with Mushrooms. Tender spaghetti tossed with sautéed forest mushrooms, fresh garlic, and high-quality extra virgin olive oil. Light, flavourful, and a perfect vegetarian choice. Finished with a sprinkle of aged Parmesan. Price: 270 PHP / Блюдо: Спагетти с грибами. Нежные спагетти с обжаренными лесными грибами, свежим чесноком и высококачественным оливковым маслом первого холодного отжима. Легкий, ароматный и идеальный вегетарианский выбор. Посыпается выдержанным пармезаном. Цена: 270 PHP",
+    "metadata": {
+      "categories": ["menu", "pasta", "main_dish", "vegetarian", "mushrooms"],
+      "dish_name": "Spaghetti with Mushrooms",
+      "price": 270
+    }
+  },
+  {
+    "text": "Dish: Spaghetti with Cheese. Simple, hearty spaghetti tossed in rich butter and high-quality extra virgin olive oil. Generously topped with a thick layer of freshly grated Parmesan and mild Cheddar cheese. Pure, satisfying indulgence. Price: PHP 200 / Блюдо: Спагетти с сыром. Простые и сытные спагетти в сливочном масле и высококачественном оливковом масле. Щедро посыпаны толстым слоем свежетертого пармезана и мягкого чеддера. Чистое гастрономическое удовольствие. Цена: PHP 200",
+    "metadata": {
+      "categories": ["menu", "pasta", "main_dish", "vegetarian"],
+      "dish_name": "Spaghetti with Cheese",
+      "price": 200
+    }
+  },
+  {
+    "text": "Dish: Spaghetti With Chicken. Simple & Savoury: Tender spaghetti tossed with grilled chicken breast, a light garlic-cream sauce, and a touch of aged Parmesan. Price: PHP 300 / Блюдо: Спагетти с курицей. Просто и вкусно: нежные спагетти с куриной грудкой гриль, легким чесночно-сливочным соусом и ноткой выдержанного пармезана. Цена: PHP 300",
+    "metadata": {
+      "categories": ["menu", "pasta", "main_dish", "chicken"],
+      "dish_name": "Spaghetti With Chicken",
+      "price": 300
+    }
+  },
+  {
+    "text": "Dish: Spaghetti With Sausages. Al dente spaghetti tossed in a rich, slightly spiced tomato sauce. Paired with generous slices of perfectly seasoned, high-quality sausages. A satisfying and robust dish for true comfort. Price: PHP 270 / Блюдо: Спагетти с сосисками. Спагетти аль денте в насыщенном, слегка пряном томатном соусе. Подаются с щедрыми ломтиками качественных сосисок со специями. Питательное и основательное блюдо для комфортного обеда. Цена: PHP 270",
+    "metadata": {
+      "categories": ["menu", "pasta", "main_dish", "sausages"],
+      "dish_name": "Spaghetti With Sausages",
+      "price": 270
+    }
+  },
+  {
+    "text": "Dish: Spaghetti With Mushrooms And Chicken. Rich & Earthy: Al dente spaghetti combined with sautéed forest mushrooms and tender chicken in a rich. Price: PHP 290 / Блюдо: Спагетти с грибами и курицей. Насыщенный вкус: спагетти аль денте в сочетании с обжаренными лесными грибами и нежной курицей в густом соусе. Цена: PHP 290",
+    "metadata": {
+      "categories": ["menu", "pasta", "main_dish", "mushrooms", "chicken"],
+      "dish_name": "Spaghetti With Mushrooms And Chicken",
+      "price": 290
+    }
+  },
+  {
+    "text": "Dish: Pasta Carbonara. The Roman Original: A velvety sauce made the authentic way—fresh egg yolk, salty cured meat, aged Pecorino cheese, and coarse black pepper, just richness and perfection served over tender fettuccine. Price: PHP 300 / Блюдо: Паста Карбонара. Оригинальный римский рецепт: бархатистый соус, приготовленный аутентичным способом — на свежих яичных желтках, с соленым вяленым мясом, выдержанным сыром Пекорино и черным перцем грубого помола. Совершенный вкус, подаваемый с нежной Фетучини. Цена: PHP 300",
+    "metadata": {
+      "categories": ["menu", "pasta", "main_dish", "meat"],
+      "dish_name": "Pasta Carbonara",
+      "price": 300
+    }
+  },
+  {
+    "text": "Dish: Spaghetti Carbonara. Classic Spaghetti Carbonara: Al dente spaghetti coated in a luxurious, creamy emulsion of egg yolk and grated cheese. Finished with crispy, flavourful cured meat for a truly satisfying and authentic Italian experience. Price: PHP 300 / Блюдо: Спагетти Карбонара. Классическая карбонара: спагетти аль денте в роскошной кремовой эмульсии из яичного желтка и тертого сыра. Дополнена хрустящим ароматным вяленым мясом для истинно аутентичного итальянского ужина. Цена: PHP 300",
+    "metadata": {
+      "categories": ["menu", "pasta", "main_dish", "meat"],
+      "dish_name": "Spaghetti Carbonara",
+      "price": 300
+    }
+  },
+  {
+    "text": "Dish: Ravioli Meat Filling. Delicate, handmade pasta pockets generously stuffed with a savoury blend of seasoned ground meat. Served simply with a drizzle of clarified butter and fresh herbs to highlight the rich, homemade filling. Price: 290 PHP / Блюдо: Равиоли с мясной начинкой. Нежные мешочки из пасты ручной работы, щедро наполненные ароматной смесью приправленного мясного фарша. Подаются с топленым маслом и свежей зеленью, чтобы подчеркнуть вкус домашней начинки. Цена: 290 PHP",
+    "metadata": {
+      "categories": ["menu", "ravioli", "main_dish", "meat"],
+      "dish_name": "Ravioli Meat Filling",
+      "price": 290
+    }
+  },
+  {
+    "text": "Dish: Ravioli Chicken. Silky, tender ravioli bursting with a creamy, flavourful chicken filling. Finished with a light, velvety Parmesan cream sauce that melts in your mouth. Pure comfort food perfected. Price: 270 PHP / Блюдо: Равиоли с курицей. Шелковистые нежные равиоли с кремовой начинкой из ароматной курицы. Дополнены легким бархатистым сливочно-пармезановым соусом, который тает во рту. Идеальное воплощение уютной домашней еды. Цена: 270 PHP",
+    "metadata": {
+      "categories": ["menu", "ravioli", "main_dish", "chicken"],
+      "dish_name": "Ravioli Chicken",
+      "price": 270
+    }
+  },
+  {
+    "text": "Dish: Crepe Philadelphia Salmon Cheese. Silky smoked salmon, creamy Philadelphia cheese, wrapped in a delicate crêpe. Price: 390 PHP / Блюдо: блин Филадельфия с лососем и сыром. Нежный копченый лосось и сливочный сыр Филадельфия, завернутые в тонкий блинчик. Цена: 390 PHP",
+    "metadata": {
+      "categories": ["menu", "crepe", "savoury_crepe", "salmon"],
+      "dish_name": "Crepe Philadelphia Salmon Cheese",
+      "price": 390
+    }
+  },
+  {
+    "text": "Dish: Chicken Cheese Crepe. Shredded chicken breast and melted Gouda enveloped in a soft, savoury crêpe. Price: 280 PHP / Блюдо: блин с курицей и сыром. Измельченная куриная грудка и расплавленный сыр гауда в мягком сытном блинчике. Цена: 280 PHP",
+    "metadata": {
+      "categories": ["menu", "crepe", "savoury_crepe", "chicken"],
+      "dish_name": "Chicken Cheese Crepe",
+      "price": 280
+    }
+  },
+  {
+    "text": "Dish: Mushroom Crepe. Earthy sautéed mushrooms blended with rich cream and cheese, wrapped and gently baked. Price: 280 PHP / Блюдо: блин с грибами. Обжаренные лесные грибы со сливками и сыром, завернутые в блинчик и аккуратно запеченные. Цена: 280 PHP",
+    "metadata": {
+      "categories": ["menu", "crepe", "savoury_crepe", "vegetarian", "mushrooms"],
+      "dish_name": "Mushroom Crepe",
+      "price": 280
+    }
+  },
+  {
+    "text": "Dish: Ham & Cheese Crepe. Classic comfort! Melted Cheddar and juicy ham slices tucked into a warm, thin crêpe. Price: 270 PHP / Блюдо: блин с ветчиной и сыром. Классика уюта! Расплавленный чеддер и ломтики сочной ветчины в теплом тонком блинчике. Цена: 270 PHP",
+    "metadata": {
+      "categories": ["menu", "crepe", "savoury_crepe", "meat"],
+      "dish_name": "Ham & Cheese Crepe",
+      "price": 270
+    }
+  },
+  {
+    "text": "Dish: Chicken & Mushroom Crepe. The Ultimate Savoury Duo: Tender shredded chicken and earthy forest mushrooms tossed in a creamy, buttery sauce, all wrapped in a light crêpe and topped with melted Parmesan. Price: 310 PHP / Блюдо: блин с курицей и грибами. Идеальный дуэт: нежная курица и лесные грибы в сливочно-масляном соусе, завернутые в легкий блин и посыпанные тертым пармезаном. Цена: 310 PHP",
+    "metadata": {
+      "categories": ["menu", "crepe", "savoury_crepe", "chicken", "mushrooms"],
+      "dish_name": "Chicken & Mushroom Crepe",
+      "price": 310
+    }
+  },
+  {
+    "text": "Dish: Extra Cheese Crepe. Pure Indulgence: A soft crêpe generously loaded with a double layer of warm, rich, melted cheese. Simple, gooey, and satisfying comfort food. Price: 200 PHP / Блюдо: блин с двойным сыром. Истинное искушение: мягкий блинчик с двойным слоем теплого тягучего сыра. Простая и сытная еда для души. Цена: 200 PHP",
+    "metadata": {
+      "categories": ["menu", "crepe", "savoury_crepe", "vegetarian"],
+      "dish_name": "Extra Cheese Crepe",
+      "price": 200
+    }
+  },
+  {
+    "text": "Dish: Banana Choco Crepe Banana+Nutella. Fresh sliced bananas and irresistible Nutella drizzled over a warm crêpe. Price: 240 PHP / Блюдо: Шоколадно-банановый блин с Нутеллой. Свежие ломтики банана и каскад Нутеллы на теплом блинчике. Цена: 240 PHP",
+    "metadata": {
+      "categories": ["menu", "crepe", "sweet_crepe", "dessert"],
+      "dish_name": "Banana Choco Crepe Banana+Nutella",
+      "price": 240
+    }
+  },
+  {
+    "text": "Dish: Mango Crepe. Tropical Delight: Sliced, fresh, sweet mango layered inside a delicate crêpe. A refreshing and light dessert, perfect for any time. Price: 240 PHP / Блюдо: блин с манго. Тропический восторг: кусочки свежего сладкого манго внутри нежного блинчика. Освежающий и легкий десерт для любого времени дня. Цена: 240 PHP",
+    "metadata": {
+      "categories": ["menu", "crepe", "sweet_crepe", "dessert"],
+      "dish_name": "Mango Crepe",
+      "price": 240
+    }
+  },
+  {
+    "text": "Dish: Strawberry Choco Crepe. Signature Strawberry: A soft crêpe filled with fresh, juicy strawberries, drizzled with rich chocolate syrup, and finished with a dusting of sugar. Price: 300 PHP / Блюдо: Клубнично-шоколадный блин. Фирменная клубника: мягкий блинчик со свежими сочными ягодами клубники под насыщенным шоколадным сиропом и сахарной пудрой. Цена: 300 PHP",
+    "metadata": {
+      "categories": ["menu", "crepe", "sweet_crepe", "dessert"],
+      "dish_name": "Strawberry Choco Crepe",
+      "price": 300
+    }
+  },
+  {
+    "text": "Dish: Crepe With Condensed Milk. A delicate crêpe filled with rich, caramelized condensed milk (Dulce de Leche). Price: 160 PHP / Блюдо: блин со сгущенкой. Нежный блинчик, наполненный насыщенным карамелизованным сгущенным молоком. Цена: 160 PHP",
+    "metadata": {
+      "categories": ["menu", "crepe", "sweet_crepe", "dessert"],
+      "dish_name": "Crepe With Condensed Milk",
+      "price": 160
+    }
+  },
+  {
+    "text": "Dish: Honey & Butter Crepe. Simple goodness: Melted butter, golden honey, and a soft, warm crêpe. Price: 120 PHP / Блюдо: блин с медом и маслом. Сама простота: растопленное сливочное масло, золотистый мед и мягкий теплый блинчик. Цена: 120 PHP",
+    "metadata": {
+      "categories": ["menu", "crepe", "sweet_crepe", "dessert"],
+      "dish_name": "Honey & Butter Crepe",
+      "price": 120
+    }
+  },
+  {
+    "text": "Dish: Salted Caramel Dream. Sweet caramel balanced with a hint of sea salt—a truly addictive flavour combination. Price: 120 PHP / Блюдо: Сливочно-карамельная мечта. Сладкая карамель в балансе с морской солью — сочетание, от которого невозможно оторваться. Цена: 120 PHP",
+    "metadata": {
+      "categories": ["menu", "crepe", "sweet_crepe", "dessert"],
+      "dish_name": "Salted Caramel Dream",
+      "price": 120
+    }
+  },
+  {
+    "text": "Dish: Chocolate Drizzle Crepe. Simple and delicious! A warm crêpe finished with a decadent chocolate syrup drizzle. Price: 120 PHP / Блюдо: Блинчик с шоколадной глазурью. Просто и вкусно! Теплый блинчик, политый густым шоколадным сиропом. Цена: 120 PHP",
+    "metadata": {
+      "categories": ["menu", "crepe", "sweet_crepe", "dessert"],
+      "dish_name": "Chocolate Drizzle Crepe",
+      "price": 120
+    }
+  },
+  {
+    "text": "Dish: Strawberry Syrup Crepe. Sweet & Simple: A soft, warm crêpe generously covered in a glossy, sweet strawberry syrup. Price: 120 PHP / Блюдо: блин с клубничным сиропом. Просто и сладко: мягкий теплый блинчик под глянцевым клубничным сиропом. Цена: 120 PHP",
+    "metadata": {
+      "categories": ["menu", "crepe", "sweet_crepe", "dessert"],
+      "dish_name": "Strawberry Syrup Crepe",
+      "price": 120
+    }
+  },
+  {
+    "text": "Dish: English Breakfast. The King of Breakfasts: A hearty and authentic plate featuring two golden fried eggs, crispy bacon, two robust pork sausages, grilled tomato, savory mushrooms, and a side of traditional baked beans. Served with buttered toast. Fuel your day the classic way! Price: 280 PHP / Блюдо: Английский завтрак. Король завтраков: сытное аутентичное блюдо, включающее два жареных яйца, хрустящий бекон, две сочные свиные колбаски, помидор гриль, обжаренные грибы и порцию традиционной фасоли. Подается с тостами со сливочным маслом. Энергия на весь день! Цена: 280 PHP",
+    "metadata": {
+      "categories": ["menu", "breakfast", "meat"],
+      "dish_name": "English Breakfast",
+      "price": 280
+    }
+  },
+  {
+    "text": "Dish: Shakshuka. Poached eggs in a rich, spiced tomato and bell pepper sauce. Price: 280 PHP / Блюдо: Шакшука. Яйца-пашот в насыщенном пряном соусе из томатов и болгарского перца. Цена: 280 PHP",
+    "metadata": {
+      "categories": ["menu", "breakfast", "vegetarian"],
+      "dish_name": "Shakshuka",
+      "price": 280
+    }
+  },
+  {
+    "text": "Dish: Shakshuka With Chicken. Poached eggs in a rich, spiced tomato and bell pepper sauce. Price: 320 PHP / Блюдо: Шакшука с курицей. Яйца-пашот в насыщенном пряном соусе из томатов и болгарского перца с добавлением курицы. Цена: 320 PHP",
+    "metadata": {
+      "categories": ["menu", "breakfast", "chicken"],
+      "dish_name": "Shakshuka With Chicken",
+      "price": 320
+    }
+  },
+  {
+    "text": "Dish: Omelet With Cheese. Fluffy eggs folded with a generous melt of premium cheese. Price: 200 PHP / Блюдо: Омлет с сыром. Воздушный омлет с большим количеством расплавленного отборного сыра. Цена: 200 PHP",
+    "metadata": {
+      "categories": ["menu", "breakfast", "vegetarian"],
+      "dish_name": "Omelet With Cheese",
+      "price": 200
+    }
+  },
+  {
+    "text": "Dish: Cheese Plate. A Perfect Pairing: A curated selection of four exquisite European cheeses—tangy Danish Blue, classic Cheddar, nutty Emmental, and mild Gouda Germany. Served with crisp crackers, fresh fruit, and sweet honey for dipping. Price: 500 PHP / Блюдо: Сырная тарелка. Идеальное сочетание: набор из четырех изысканных европейских сыров — пикантный Даниш Блю, классический чеддер, ореховый эмменталь и мягкая немецкая гауда. Подается с хрустящими крекерами, свежими фруктами и натуральным медом. Цена: 500 PHP",
+    "metadata": {
+      "categories": ["menu", "appetizer", "cheese", "vegetarian"],
+      "dish_name": "Cheese Plate",
+      "price": 500
+    }
+  },
+  {
+    "text": "Dish: Borsh. Hearty traditional soup with vibrant beets and vegetables. Price: 350 PHP / Блюдо: Борщ. Сытный традиционный суп со свеклой и овощами. Цена: 350 PHP",
+    "metadata": {
+      "categories": ["menu", "soup", "main_dish", "борщ"],
+      "dish_name": "Borsh",
+      "price": 350
+    }
+  },
+  {
+    "text": "Dish: Manti. Traditional steamed dumplings filled with seasoned meat. Price: 350 PHP / Блюдо: Манты. Традиционные пельмени на пару с сочной мясной начинкой и специями. Цена: 350 PHP",
+    "metadata": {
+      "categories": ["menu", "main_dish", "meat"],
+      "dish_name": "Manti",
+      "price": 350
+    }
+  },
+  {
+    "text": "Dish: \"Meat Feast\" Platter. An exquisite selection of premium deli meats: tender ham, zesty salami, aromatic bacon, and crunchy meat chips (jerky). Served with creamy cheese and fresh vegetables. Price: 700 PHP / Блюдо: Мясное плато. Изысканный выбор деликатесов: нежная ветчина, пикантная салями, ароматный бекон и хрустящие мясные чипсы (джерки). Подается со сливочным сыром и свежими овощами. Цена: 700 PHP",
+    "metadata": {
+      "categories": ["menu", "appetizer", "meat", "platter"],
+      "dish_name": "\"Meat Feast\" Platter",
+      "price": 700
+    }
+  },
+  {
+    "text": "Dish: Mango Shake(drink). Tropical and refreshing blended mango drink. Price: 300 PHP. / Блюдо: Манговый шейк(напиток). Тропический и освежающий взбитый манговый напиток. Цена: 300 PHP.",
+    "metadata": {
+      "categories": ["menu", "drinks", "shake"],
+      "dish_name": "Mango Shake",
+      "price": 300
+    }
+  },
+  {
+    "text": "Dish: Banana Shake(drink). Creamy and smooth blended banana drink. Price: 300 PHP. / Блюдо: Банановый шейк(напиток). Сливочный и нежный взбитый банановый напиток. Цена: 300 PHP.",
+    "metadata": {
+      "categories": ["menu", "drinks", "shake"],
+      "dish_name": "Banana Shake",
+      "price": 300
+    }
+  },
+  {
+    "text": "Dish: Strawberry Shake(drink). Sweet and vibrant blended strawberry drink. Price: 300 PHP. / Блюдо: Клубничный шейк(напиток). Сладкий и яркий напиток со взбитой клубникой. Цена: 300 PHP.",
+    "metadata": {
+      "categories": ["menu", "drinks", "shake"],
+      "dish_name": "Strawberry Shake",
+      "price": 300
+    }
+  },
+  {
+    "text": "Vegetarian options: We offer Shakshuka, Spaghetti with Mushrooms, Cheese Plate, and various sweet crepes. Please ask the waiter for more details. / Вегетарианские блюда: Мы предлагаем шакшуку, спагетти с грибами, сырную тарелку и различные сладкие блинчики",
+    "metadata": {
+      "categories": ["menu", "vegetarian"]
+    }
+  },
+  {
+    "text": "We are located at address: Panagsama Rd, Moalboal, 6032 Cebu, Philippines / Мы находимся по адресу: Panagsama Rd, Moalboal, 6032 Cebu, Philippines",
+    "metadata": {
+      "type": "faq",
+      "categories": ["info", "address", "location"]
+    }
+  },
+  {
+    "text": "We are open daily from 8:00 AM to 01:00 AM / Мы открыты ежедневно с 8:00 до 01:00, наш график работы создан для вашего удобства",
+    "metadata": {
+      "type": "faq",
+      "categories": ["info", "time", "opening hours"]
+    }
+  },
+  {
+    "text": "Contact us on:\n Telegram: @Anonymous8769 \n Facebook: gertin gerf \n WatsApp: +79299323038 / Свяжитесь с нами:\n Telegram: @Anonymous8769 \n Facebook: gertin gerf \n WatsApp: +79299323038",
+    "metadata": {
+      "type": "faq",
+      "categories": ["info", "manager", "contacts"]
+    }
+  }
+]

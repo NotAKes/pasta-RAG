@@ -22,17 +22,8 @@ DBNAME = os.getenv("dbname")
 DATABASE_URL = f"postgresql+asyncpg://{USER}:{PASSWORD}@{HOST}:{PORT}/{DBNAME}"
 
 load_dotenv()
-
-
-# engine = None
-# async_session_maker= None
-
-# engine = create_async_engine(DATABASE_URL, echo=True, future=True)
-# async_session_maker = async_sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
-
 import handlers
-# async def init_db():
-
+chat_storage = {}
 
 async def main():
     async with engine.begin() as conn:
@@ -46,11 +37,6 @@ async def main():
 
     dp.update.middleware(DbSessionMiddleware(session_pool=async_session_maker))
     await dp.start_polling(bot)
-
-
-
-# router = Router()
-# Команда /start
 
 
 

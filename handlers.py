@@ -1,21 +1,44 @@
-import asyncio
-
-from torch.cuda import memory_summary
-
-from main import user_histories
-from get_context import search
 from aiogram import types, F
 from aiogram.filters.command import Command
+from openai import AsyncOpenAI
+from sqlalchemy.ext.asyncio import AsyncSession
 # from ai_service import system_prompt
 from sqlmodel import select
+
+from bot import dp
+from get_context import search
+
+from redis.asyncio import Redis
+import json
 from models import User
-from bot import dp, bot
-from sqlalchemy.ext.asyncio import AsyncSession
-from openai import AsyncOpenAI
+from load_env import deepseek_key
 
-client = AsyncOpenAI(api_key="sk-c46004461d7548fd9ce679b9007fd5df", base_url="https://api.deepseek.com")
 
-# context = ''
+redis_client = Redis(host='localhost', port=6379, decode_responses=True)
+client = AsyncOpenAI(api_key=deepseek_key, base_url="https://api.deepseek.com")
+
+async def push_redis(user_id, content, role):
+    msg_to_save = json.dumps({"role": role, "content": content}, ensure_ascii=False)
+    await redis_client.rpush(f"chat_history:{user_id}", msg_to_save)
+    await redis_client.ltrim(f"chat_history:{user_id}", -20, -1)
+
+async def get_redis(user_id):
+    messages_json = await redis_client.lrange(f"chat_history:{user_id}", 0, -1)
+    hh = []
+    for msg in messages_json:
+        try:
+            hh.append(json.loads(msg))
+        except json.JSONDecodeError:
+            continue
+    return hh
+'''
+# раскоммент для тестов доступности аиограма
+@dp.message()
+async def echo_handler(message: types.Message):
+    print(f"DEBUG: Пришло сообщение {message.text}")
+    await message.answer("Я тебя слышу!")'''
+
+
 @dp.message(Command("start"))
 async def cmd_start(message: types.Message, session: AsyncSession):
     user_id_str = str(message.from_user.id)
@@ -38,14 +61,15 @@ async def cmd_start(message: types.Message, session: AsyncSession):
         print(f"User found: {user.name}")
 
     await message.answer(
-        f"Привет, {user.name}!👋\n"
-        f"Ваш ID в системе: {user.tg_id}"
-        f"Hello, {user.name}!👋\n"
+        f"Привет, {user.name}!👋 Можете писать ваши вопросы в этот чат!\n"
+        f"Ваш ID в системе: {user.tg_id}\n"
+        f"Hello, {user.name}!👋 You can write your questions in this chat\n"
         f"Your ID is: {user.tg_id}"
     )
 
 system_prompt = f"""Ты — опытный администратор ресторана "Pastabar" в Моалбоале. 
                 Твоя цель: давать безупречно точные ответы гостям и красиво оформить этот ответ для гостя.
+                Если гость выбрал блюдо, то предложи ему придти в заведение или написать менеджеру(@Roza120503). Обязательно предложи придти в заведение, если выбранное блюдо доступно не только по предзаказу
 
                 ### ТВОИ ЗНАНИЯ:
                 Помни, что 'Crepes' в нашем меню — это блины
@@ -97,22 +121,22 @@ system_prompt = f"""Ты — опытный администратор рест�
 
 @dp.message(F.text)
 async def answer(message: types.Message, session: AsyncSession):
-    def get_limited_history(user_id, limit=6):
-        if user_id not in user_histories:
-            user_histories[user_id] = []
-        return user_histories[user_id][-limit:]
-
-    def add_to_history(user_id, role, content):
-        if user_id not in user_histories:
-            user_histories[user_id] = []
-        user_histories[user_id].append({"role": role, "content": content})
-        if len(user_histories[user_id]) > 20:
-            user_histories[user_id].pop(0)
+    # def get_limited_history(user_id, limit=6):
+    #     if user_id not in redis_client:
+    #         redis_client.set(user_id, [])
+    #     return redis_client.get(user_id)[-limit:]
+    #
+    # def add_to_history(user_id, role, content):
+    #     if user_id not in redis_client:
+    #         redis_client.lpush(user_id,  *[])
+    #     redis_client.lrange(user_id, 0 , -1).append({"role": role, "content": content})
+    #     if len(redis_client.get(user_id)) > 20:
+    #         redis_client.lrange(user_id, 0 , -1).pop(0)
 
     context = search(message.text)
-    add_to_history(message.from_user.id, "user", message.text)
+    await push_redis(message.from_user.id, message.text, "user")
 
-    memory_msg = get_limited_history(message.from_user.id)
+    memory_msg = await get_redis(message.from_user.id)
 
     response = await client.chat.completions.create(
         model="deepseek-chat",
@@ -124,6 +148,6 @@ async def answer(message: types.Message, session: AsyncSession):
         temperature=0.3
     )
 
-    bot_answer = response.choices[0].message.content
-    add_to_history(message.from_user.id, "assistant", bot_answer.replace("**", "").replace("##", ""))
+    bot_answer = response.choices[0].message.content.replace("**", "").replace("##", "")
+    await push_redis(message.from_user.id, bot_answer, "assistant")
     await message.answer(bot_answer)

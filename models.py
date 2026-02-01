@@ -1,8 +1,9 @@
-from sqlmodel import SQLModel, Field, Column
-from sqlalchemy import Column, Text
-from datetime import datetime
 # from sqlalchemy.dialects.postgresql import TEXT
 from typing import Optional
+
+from sqlalchemy import Column, Text
+from sqlmodel import SQLModel, Field
+
 
 class User(SQLModel, table=True):
     __tablename__ = "users"

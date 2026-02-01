@@ -1,16 +1,12 @@
-from aiogram import Bot, Dispatcher
 import os
-from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
+
+from aiogram import Bot, Dispatcher
 from dotenv import load_dotenv
-load_dotenv()
+from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
 
+from load_env import user, password, host, port, dbname
 
-USER = os.getenv("user")
-PASSWORD = os.getenv("password")
-HOST = os.getenv("host")
-PORT = os.getenv("port")
-DBNAME = os.getenv("dbname")
-DATABASE_URL = f"postgresql+asyncpg://{USER}:{PASSWORD}@{HOST}:{PORT}/{DBNAME}"
+DATABASE_URL = f"postgresql+asyncpg://{user}:{password}@{host}:{port}/{dbname}"
 
 engine = create_async_engine(DATABASE_URL, echo=True, future=True)
 async_session_maker = async_sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)

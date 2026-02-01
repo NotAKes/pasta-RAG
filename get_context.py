@@ -1,13 +1,15 @@
-import os
 from qdrant_client import QdrantClient
 from sentence_transformers import SentenceTransformer
+from load_env import  qdrant_url, qdrant_key
 
 collection_name = "instruction"
 
+
 client = QdrantClient(
-    url="https://ad3e465b-90fd-499d-8a00-b2c821e79f94.europe-west3-0.gcp.cloud.qdrant.io:6333",
-    api_key="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhY2Nlc3MiOiJtIn0.ZSZuSXhrQn29gLeyULF-_Hpxh_wiOXU1H1rJB6Nem9U",
+    url=qdrant_url,
+    api_key=qdrant_key,
 )
+
 model = SentenceTransformer('ai-forever/ru-en-RoSBERTa')
 def search(raw_query):
     query = raw_query

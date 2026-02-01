@@ -288,7 +288,7 @@
     }
   },
   {
-    "text": "Dish: Manti. Traditional steamed dumplings filled with seasoned meat. Price: 350 PHP / Блюдо: Манты. Традиционные пельмени на пару с сочной мясной начинкой и специями. Цена: 350 PHP",
+    "text": "Dish: Manti. Traditional steamed dumplings filled with seasoned meat. Price: 350 PHP Pre-order only: @Roza120503/ Блюдо: Манты. Традиционные пельмени на пару с сочной мясной начинкой и специями. Цена: 350 PHP Только по предзаказу: @Roza120503",
     "metadata": {
       "categories": ["menu", "main_dish", "meat"],
       "dish_name": "Manti",
@@ -304,33 +304,57 @@
     }
   },
   {
-    "text": "Dish: Mango Shake(drink). Tropical and refreshing blended mango drink. Price: 300 PHP. / Блюдо: Манговый шейк(напиток). Тропический и освежающий взбитый манговый напиток. Цена: 300 PHP.",
+    "text": "Dish: Mango Shake (drink). Tropical and refreshing blended mango drink. Price: 300 PHP. / Блюдо: Манговый шейк (напиток). Тропический и освежающий взбитый манговый напиток. Цена: 300 PHP.",
     "metadata": {
-      "categories": ["menu", "drinks", "shake"],
+      "categories": ["menu", "drinks", "shake", "шейк", "напитки"],
       "dish_name": "Mango Shake",
       "price": 300
     }
   },
   {
-    "text": "Dish: Banana Shake(drink). Creamy and smooth blended banana drink. Price: 300 PHP. / Блюдо: Банановый шейк(напиток). Сливочный и нежный взбитый банановый напиток. Цена: 300 PHP.",
+    "text": "Dish: Banana Shake (drink). Creamy and smooth blended banana drink. Price: 300 PHP. / Блюдо: Банановый шейк (напиток). Сливочный и нежный взбитый банановый напиток. Цена: 300 PHP.",
     "metadata": {
-      "categories": ["menu", "drinks", "shake"],
+      "categories": ["menu", "drinks", "shake", "шейк", "напитки"],
       "dish_name": "Banana Shake",
       "price": 300
     }
   },
   {
-    "text": "Dish: Strawberry Shake(drink). Sweet and vibrant blended strawberry drink. Price: 300 PHP. / Блюдо: Клубничный шейк(напиток). Сладкий и яркий напиток со взбитой клубникой. Цена: 300 PHP.",
+    "text": "Dish: Strawberry Shake (drink). Sweet and vibrant blended strawberry drink. Price: 300 PHP. / Блюдо: Клубничный шейк (напиток). Сладкий и яркий напиток со взбитой клубникой. Цена: 300 PHP.",
     "metadata": {
-      "categories": ["menu", "drinks", "shake"],
+      "categories": ["menu", "drinks", "shake", "шейк", "напитки"],
       "dish_name": "Strawberry Shake",
       "price": 300
     }
   },
   {
-    "text": "Vegetarian options: We offer Shakshuka, Spaghetti with Mushrooms, Cheese Plate, and various sweet crepes. Please ask the waiter for more details. / Вегетарианские блюда: Мы предлагаем шакшуку, спагетти с грибами, сырную тарелку и различные сладкие блинчики",
+    "text": "Vegetarian options: We offer Shakshuka, Spaghetti with Mushrooms, Cheese Plate, 2 types of khachapuri and various sweet crepes. Please ask the waiter for more details. / Вегетарианские блюда: Мы предлагаем шакшуку, спагетти с грибами, сырную тарелку и различные сладкие блинчики",
     "metadata": {
       "categories": ["menu", "vegetarian"]
+    }
+  },
+  {
+    "text": "Dish: Khachapuri Adjaruli Style. The Ultimate Cheese Boat! A traditional crusty bread filled with a generous amount of melted cheese, topped with a pat of butter and a fresh egg yolk. Price: 350 PHP. / Блюдо: Хачапури по-аджарски. Сырная лодочка! Традиционная хрустящая выпечка с обилием расплавленного сыра, кусочком сливочного масла и свежим яичным желтком. Цена: 350 PHP.",
+    "metadata": {
+      "categories": ["menu", "main_dish", "khachapuri", "vegetarian"],
+      "dish_name": "Khachapuri Adjaruli Style",
+      "price": 350
+    }
+  },
+  {
+    "text": "Dish: Khachapuri Vegetable Style. The Ultimate Khachapuri with cheese and a mix of fresh vegetables, topped with a fresh egg yolk. Price: 400 PHP. / Блюдо: Хачапури с овощами. Сыр и ассорти из свежих овощей в традиционной лодочке, дополненные свежим яичным желтком. Цена: 400 PHP.",
+    "metadata": {
+      "categories": ["menu", "main_dish", "khachapuri", "vegetarian"],
+      "dish_name": "Khachapuri Vegetable Style",
+      "price": 400
+    }
+  },
+  {
+    "text": "Dish: Khachapuri Pepperoni Style. The Ultimate 'Cheeroni' Style Khachapuri! A cheese boat topped with slices of spicy pepperoni. Price: 400 PHP. / Блюдо: Хачапури в стиле Пепперони. Сырная лодочка, дополненная ломтиками пикантной пепперони. Цена: 400 PHP.",
+    "metadata": {
+      "categories": ["menu", "main_dish", "khachapuri", "meat"],
+      "dish_name": "Khachapuri Pepperoni Style",
+      "price": 400
     }
   },
   {
@@ -348,7 +372,15 @@
     }
   },
   {
-    "text": "Contact us on:\n Telegram: @Anonymous8769 \n Facebook: gertin gerf \n WatsApp: +79299323038 / Свяжитесь с нами:\n Telegram: @Anonymous8769 \n Facebook: gertin gerf \n WatsApp: +79299323038",
+    "text": "To reserve a table, please contact our administrator @Roza120503. To make a reservation, you will need a phone number, the time of the reservation, and the number of people at the table./ Для бронирования стола обратитеськ нашему администратору @Roza120503. Для резервации понадобится номер телефона, время бронирования и на какое количество людей столик",
+    "metadata": {
+      "type": "faq",
+      "categories": ["info", "reservation", "table", "бронирование", "столик"]
+    }
+  },
+
+  {
+    "text": "Contact us on:\n Telegram: @Roza120503 \n Facebook: Pasta Bar Nha Trang \n WhatsApp: +7(925)496-26-43 / Свяжитесь с нами:\n Telegram: @Roza120503 \n Facebook: Pasta Bar Nha Trang \n WatsApp: +7(925)496-26-43",
     "metadata": {
       "type": "faq",
       "categories": ["info", "manager", "contacts"]

@@ -1,31 +1,25 @@
 import asyncio
 import os
 
+from sqlalchemy import text
 from sqlmodel import SQLModel
 
-import models
 from bot import dp, bot
-from aiogram import types
-from aiogram.filters.command import Command
-from dotenv import load_dotenv
-from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
-from sqlalchemy import Column, text
 from bot import engine, async_session_maker
 from middleware import DbSessionMiddleware
 
-user_histories = {}
-load_dotenv()
-USER = os.getenv("user")
-PASSWORD = os.getenv("password")
-HOST = os.getenv("host")
-PORT = os.getenv("port")
-DBNAME = os.getenv("dbname")
-DATABASE_URL = f"postgresql+asyncpg://{USER}:{PASSWORD}@{HOST}:{PORT}/{DBNAME}"
+#
+import logging
+from handlers import *
+import redis
+logging.basicConfig(
+    filename='logs.log',
+    format='%(asctime)s %(levelname)s %(name)s %(message)s'
+)
 
-load_dotenv()
-import handlers
+# DATABASE_URL = f"postgresql+asyncpg://{user}:{password}@{host}:{port}/{dbname}"
 
-chat_storage = {}
+
 
 
 async def main():
@@ -39,6 +33,7 @@ async def main():
         await conn.execute(default_policy)
 
     dp.update.middleware(DbSessionMiddleware(session_pool=async_session_maker))
+    print("Бот запускает polling...")
     await dp.start_polling(bot)
 
 

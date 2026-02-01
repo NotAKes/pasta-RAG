@@ -2,7 +2,7 @@ from aiogram import types, F
 from aiogram.filters.command import Command
 from openai import AsyncOpenAI
 from sqlalchemy.ext.asyncio import AsyncSession
-# from ai_service import system_prompt
+import os
 from sqlmodel import select
 
 from bot import dp
@@ -13,8 +13,9 @@ import json
 from models import User
 from load_env import deepseek_key
 
+REDIS_HOST = os.getenv("REDIS_HOST", "localhost")
 
-redis_client = Redis(host='localhost', port=6379, decode_responses=True)
+redis_client = Redis(host=REDIS_HOST, port=6379, decode_responses=True)
 client = AsyncOpenAI(api_key=deepseek_key, base_url="https://api.deepseek.com")
 
 async def push_redis(user_id, content, role):
@@ -46,7 +47,7 @@ async def cmd_start(message: types.Message, session: AsyncSession):
     result = await session.execute(statement)
     user = result.scalar_one_or_none()
     if user is None:
-        print(f"Creating new user: {message.from_user.full_name}")
+        # print(f"Creating new user: {message.from_user.full_name}")
         user = User(
             name=message.from_user.full_name,
             tg_id=user_id_str,
@@ -57,8 +58,6 @@ async def cmd_start(message: types.Message, session: AsyncSession):
         session.add(user)
         await session.commit()
         await session.refresh(user)
-    else:
-        print(f"User found: {user.name}")
 
     await message.answer(
         f"Привет, {user.name}!👋 Можете писать ваши вопросы в этот чат!\n"

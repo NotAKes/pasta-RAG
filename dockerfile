@@ -6,52 +6,48 @@
 
 # Want to help us make this template better? Share your feedback here: https://forms.gle/ybq9Krt8jtBL3iCk7
 
-ARG PYTHON_VERSION=3.12.3
 FROM python:3.10-slim
 
-# Prevents Python from writing pyc files.
 ENV PYTHONDONTWRITEBYTECODE=1
 
-# Keeps Python from buffering stdout and stderr to avoid situations where
-# the application crashes without emitting any logs due to buffering.
 ENV PYTHONUNBUFFERED=1
 
 WORKDIR /app
 
-# Create a non-privileged user that the app will run under.
-# See https://docs.docker.com/go/dockerfile-user-best-practices/
 ARG UID=10001
-RUN adduser \
-    --disabled-password \
-    --gecos "" \
-    --home "/nonexistent" \
-    --shell "/sbin/nologin" \
-    --no-create-home \
-    --uid "${UID}" \
-    appuser
 
-# Download dependencies as a separate step to take advantage of Docker's caching.
-# Leverage a cache mount to /root/.cache/pip to speed up subsequent builds.
-# Leverage a bind mount to requirements.txt to avoid having to copy them into
-# into this layer.
+RUN useradd -m -s /bin/bash botuser
+
+RUN mkdir -p /app/hf_cache && chown -R botuser:botuser /app/hf_cache
+
 RUN apt-get update && apt-get install -y \
     build-essential \
     && rm -rf /var/lib/apt/lists/*
+
+RUN mkdir -p /app/model_cache && chmod 777 /app/model_cache
+
+RUN mkdir -p /nonexistent && chmod 777 /nonexistent
+
 RUN pip install --upgrade pip
+
 RUN python --version
+
 COPY requirements.txt .
+
 RUN --mount=type=cache,target=/root/.cache/pip \
     --mount=type=bind,source=requirements.txt,target=requirements.txt \
     python -m pip install -r requirements.txt
 
-# Switch to the non-privileged user to run the application.
-USER appuser
+RUN chown -R botuser:botuser /app
 
-# Copy the source code into the container.
+
+
+USER botuser
+
 COPY . .
 
-# Expose the port that the application listens on.
-EXPOSE 8000
+USER root
 
-# Run the application.
+# RUN ping api.telegram.org
+
 CMD ["python", "main.py"]

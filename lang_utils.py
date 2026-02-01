@@ -12,7 +12,7 @@ client = QdrantClient(
 
 collection_name = "instruction"
 
-model = SentenceTransformer('ai-forever/ru-en-RoSBERTa')
+model = SentenceTransformer('ai-forever/ru-en-RoSBERTa', cache_folder='/app/hf_cache')
 def upload_menu():
     with open('instruction.json', 'r', encoding='utf-8') as f:
         data = json.load(f)

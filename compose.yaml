@@ -18,12 +18,10 @@ services:
     volumes:
       - .:/app
       - ./model_weights:/app/hf_cache
-    environment:
-      - REDIS_HOST=redis
     depends_on:
       - redis
     env_file:
-      - path: ./.env
+      - ./.env
   redis:
     image: redis:7-alpine
     ports:

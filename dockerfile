@@ -19,5 +19,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # ВАЖНО: Мы пока НЕ переключаемся на USER botuser,
-# чтобы Python мог создать logs.log и папки кэша сам.
-CMD ["python", "main.py"]
+CMD uvicorn api:app --host 0.0.0.0 --port 8000

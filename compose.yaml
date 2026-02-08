@@ -15,9 +15,12 @@ services:
           cpus: '1.5'   # Позволяем использовать полтора ядра
           memory: 2.5G
     build: .
+    ports:
+      - "8000:8000"
     volumes:
       - .:/app
       - ./model_weights:/app/hf_cache
+      - ./instruction.json:/app/instruction.json
     depends_on:
       - redis
     env_file:

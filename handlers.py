@@ -4,10 +4,10 @@ from openai import AsyncOpenAI
 from sqlalchemy.ext.asyncio import AsyncSession
 import os
 from sqlmodel import select
-
+from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, WebAppInfo, InlineKeyboardMarkup, InlineKeyboardButton
 from bot import dp
 from get_context import search
-
+from urllib.parse import quote
 from redis.asyncio import Redis
 import json
 from models import User
@@ -58,13 +58,47 @@ async def cmd_start(message: types.Message, session: AsyncSession):
         session.add(user)
         await session.commit()
         await session.refresh(user)
-
+    kb = InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(
+            text="Открыть меню и заказать📱",
+            web_app=WebAppInfo(url="https://resplendently-connectional-maryanna.ngrok-free.dev/")
+        )]
+    ])
     await message.answer(
         f"Привет, {user.name}!👋 Можете писать ваши вопросы в этот чат!\n"
         f"Ваш ID в системе: {user.tg_id}\n"
         f"Hello, {user.name}!👋 You can write your questions in this chat\n"
-        f"Your ID is: {user.tg_id}"
+        f"Your ID is: {user.tg_id}", reply_markup=kb
     )
+
+
+@dp.message(F.web_app_data)
+async def handle_web_app_data(message: types.Message):
+    try:
+        data = json.loads(message.web_app_data.data)
+
+        table = data.get('table', 'Не указан')
+        items = data.get('items', [])
+
+
+        text = ""
+        total = 0
+        for item in items:
+            name = item.get('title', 'Товар')
+            price = item.get('price', 0)
+            qty = item.get('quantity', 1)
+            row_sum = price * qty
+            total += row_sum
+            text += f"{name} x{qty} = {row_sum} PHP\n"
+
+        text += f"\n💰 *Итого: {total} PHP*"
+
+        await message.answer(f"🧾 *Ваш заказ к столу №{table}📍:*\n\n" + text, parse_mode="Markdown")
+        #TODO
+        await message.bot.send_message(1423155014, f"🧾 *Новый заказ:*\n\n к столу №{table}📍" + text, parse_mode="Markdown")
+
+    except Exception as e:
+        await message.answer(f"Ошибка чтения данных: {e}")
 
 system_prompt = f"""Ты — опытный администратор ресторана "Pastabar" в Моалбоале. 
                 Твоя цель: давать безупречно точные ответы гостям и красиво оформить этот ответ для гостя.
@@ -120,19 +154,21 @@ system_prompt = f"""Ты — опытный администратор рест�
 
 @dp.message(F.text)
 async def answer(message: types.Message, session: AsyncSession):
-    # def get_limited_history(user_id, limit=6):
-    #     if user_id not in redis_client:
-    #         redis_client.set(user_id, [])
-    #     return redis_client.get(user_id)[-limit:]
-    #
-    # def add_to_history(user_id, role, content):
-    #     if user_id not in redis_client:
-    #         redis_client.lpush(user_id,  *[])
-    #     redis_client.lrange(user_id, 0 , -1).append({"role": role, "content": content})
-    #     if len(redis_client.get(user_id)) > 20:
-    #         redis_client.lrange(user_id, 0 , -1).pop(0)
+    # TODO
 
     context = search(message.text)
+    # kb = [
+    #     [KeyboardButton(
+    #         text="",
+    #         web_app=WebAppInfo(url="")
+    #     )]
+    # ]
+    kb = InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(
+            text="Открыть меню и заказать📱",
+            web_app=WebAppInfo(url="https://resplendently-connectional-maryanna.ngrok-free.dev/")
+        )]
+    ])
     await push_redis(message.from_user.id, message.text, "user")
 
     memory_msg = await get_redis(message.from_user.id)
@@ -147,6 +183,6 @@ async def answer(message: types.Message, session: AsyncSession):
         temperature=0.3
     )
 
-    bot_answer = response.choices[0].message.content.replace("**", "").replace("##", "")
+    bot_answer = response.choices[0].message.content.replace("*", "").replace("#", "")
     await push_redis(message.from_user.id, bot_answer, "assistant")
-    await message.answer(bot_answer)
+    await message.answer(bot_answer, reply_markup=kb)

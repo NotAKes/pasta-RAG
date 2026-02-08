@@ -330,7 +330,8 @@
   {
     "text": "Vegetarian options: We offer Shakshuka, Spaghetti with Mushrooms, Cheese Plate, 2 types of khachapuri and various sweet crepes. Please ask the waiter for more details. / Вегетарианские блюда: Мы предлагаем шакшуку, спагетти с грибами, сырную тарелку и различные сладкие блинчики",
     "metadata": {
-      "categories": ["menu", "vegetarian"]
+      "categories": ["menu", "vegetarian"],
+      "price": 1
     }
   },
   {

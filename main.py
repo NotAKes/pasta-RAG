@@ -13,7 +13,7 @@ import logging
 from handlers import *
 import redis
 logging.basicConfig(
-    filename='logs.log',
+    filename='logs/logs.log',
     format='%(asctime)s %(levelname)s %(name)s %(message)s'
 )
 

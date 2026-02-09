@@ -1,64 +1,73 @@
-# Comments are provided throughout this file to help you get started.
-# If you need more help, visit the Docker Compose reference guide at
-# https://docs.docker.com/go/compose-spec-reference/
-
-# Here the instructions define your application as a service called "server".
-# This service is built from the Dockerfile in the current directory.
-# You can add other services your application may depend on here, such as a
-# database or a cache. For examples, see the Awesome Compose repository:
-# https://github.com/docker/awesome-compose
 services:
   bot:
+    build: .
+    restart: always
     deploy:
       resources:
         limits:
-          cpus: '1.5'   # Позволяем использовать полтора ядра
-          memory: 2.5G
-    build: .
-    ports:
-      - "8000:8000"
+          cpus: '1.5'
+          memory: 2.8G # Основная часть памяти под ML-модель
     volumes:
-      - .:/app
       - ./model_weights:/app/hf_cache
       - ./instruction.json:/app/instruction.json
+      - ./logs:/app/logs
     depends_on:
-      - redis
+      redis:
+        condition: service_healthy
+      db:
+        condition: service_healthy
     env_file:
-      - ./.env
+      - .env
+    # Порт 8000 теперь не пробрасываем наружу, его заберет Caddy
+
+  db:
+    image: postgres:15-alpine
+    restart: always
+    deploy:
+      resources:
+        limits:
+          memory: 500M
+    environment:
+      - POSTGRES_USER=${DB_USER:-user}
+      - POSTGRES_PASSWORD=${DB_PASSWORD:-pass}
+      - POSTGRES_DB=${DB_NAME:-restodb}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-user} -d ${DB_NAME:-restodb}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
   redis:
     image: redis:7-alpine
-    ports:
-      - "6379:6379"
-# The commented out section below is an example of how to define a PostgreSQL
-# database that your application can use. `depends_on` tells Docker Compose to
-# start the database before your application. The `db-data` volume persists the
-# database data between container restarts. The `db-password` secret is used
-# to set the database password. You must create `db/password.txt` and add
-# a password of your choosing to it before running `docker compose up`.
-#     depends_on:
-#       db:
-#         condition: service_healthy
-#   db:
-#     image: postgres
-#     restart: always
-#     user: postgres
-#     secrets:
-#       - db-password
-#     volumes:
-#       - db-data:/var/lib/postgresql/data
-#     environment:
-#       - POSTGRES_DB=example
-#       - POSTGRES_PASSWORD_FILE=/run/secrets/db-password
-#     expose:
-#       - 5432
-#     healthcheck:
-#       test: [ "CMD", "pg_isready" ]
-#       interval: 10s
-#       timeout: 5s
-#       retries: 5
-# volumes:
-#   db-data:
-# secrets:
-#   db-password:
-#     file: db/password.txt
+    restart: always
+    deploy:
+      resources:
+        limits:
+          memory: 200M
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
+  caddy:
+    image: caddy:2-alpine
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    # Caddy сам подхватит твой домен и сделает HTTPS
+    command: caddy reverse-proxy --from pastamoalboal.shop --to bot:8000
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - bot
+
+volumes:
+  postgres_data:
+  caddy_data:
+  caddy_config:

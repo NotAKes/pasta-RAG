@@ -1,13 +1,21 @@
 from contextlib import asynccontextmanager
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi import FastAPI
+from fastapi import FastAPI, Header, HTTPException, Request
 import json
 import asyncio
+from fastapi.staticfiles import StaticFiles
 from main import main as start_logic_bot
 import logging
-from pydantic import BaseModel
+from pydantic import BaseModel, Field, constr
 from typing import List, Optional
 from bot import bot
+
+
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.util import get_remote_address
+from slowapi.errors import RateLimitExceeded
+
+limiter = Limiter(key_func=get_remote_address)
 
 origins = [
     "http://localhost",
@@ -17,7 +25,7 @@ origins = [
 ]
 
 logging.basicConfig(
-    filename='logs.log',
+    filename='logs/logs.log',
     format='%(asctime)s %(levelname)s %(name)s %(message)s'
 )
 
@@ -26,16 +34,17 @@ logging.basicConfig(
 # 1. Модель данных (то, что присылает React)
 class OrderItem(BaseModel):
     id: str
-    quantity: int
+    quantity: int = Field(..., gt=0, le=20)
     price: float
     title: str
 
 class OrderRequest(BaseModel):
     user_id: Optional[int] = None  # Теперь необязательно!
-    name: Optional[str] = None     # Для сайта
-    phone: Optional[str] = None    # Для сайта
-    table: str
-    items: List[OrderItem]
+    name: Optional[str] = Field(None, max_length=50)
+    phone: Optional[str] = Field(None, max_length=20)
+    table: str = Field(..., max_length=10)
+
+    items: List[OrderItem] = Field(..., min_items=1, max_items=50)
 
 
 @asynccontextmanager
@@ -45,8 +54,10 @@ async def lifespan(app: FastAPI):
     bot_task.cancel()
 
 app = FastAPI(lifespan=lifespan)
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
-
+app.mount("/", StaticFiles(directory="/app/static", html=True), name="static")
 
 app.add_middleware(
     CORSMiddleware,
@@ -55,8 +66,12 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 @app.post("/api/create_order")
-async def create_order(order:OrderRequest):
+@limiter.limit("10/minute")
+async def create_order(request: Request, order:OrderRequest, x_secret_token: str = Header(None)):
+    if x_secret_token != "1yQ!={shr[RX3tj12w34554w2Ejyj6wef1WZ)<XtV>":
+        raise HTTPException(status_code=403, detail="Access denied")
     try:
         items = order.items
 
@@ -87,7 +102,8 @@ async def create_order(order:OrderRequest):
 
 
 @app.get("/api")
-async def api_read_menu():
+@limiter.limit("10/minute")
+async def api_read_menu(request: Request, x_secret_token: str = Header(None)):
     try:
         with open('/app/instruction.json', 'r', encoding='utf-8') as f:
             data = json.load(f)

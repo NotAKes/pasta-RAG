@@ -1,0 +1,7 @@
+pastamoalboal.shop {
+    reverse_proxy bot:8000
+}
+
+www.pastamoalboal.shop {
+    redir https://pastamoalboal.shop{uri}
+}

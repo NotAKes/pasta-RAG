@@ -4,7 +4,8 @@
     "metadata": {
       "categories": ["menu", "pasta", "vegetarian", "main_dish", "mushrooms"],
       "dish_name": "Pasta Mushrooms",
-      "price": 300
+      "price": 300,
+      "image_url": "/static/images/dish_17.jpg"
     }
   },
   {
@@ -12,7 +13,8 @@
     "metadata": {
       "categories": ["menu", "pasta", "main_dish"],
       "dish_name": "Pasta Classic",
-      "price": 250
+      "price": 250,
+      "image_url": "/static/images/dish_43.jpg"
     }
   },
   {
@@ -20,7 +22,8 @@
     "metadata": {
       "categories": ["menu", "pasta", "main_dish", "chicken"],
       "dish_name": "Pasta Chicken",
-      "price": 320
+      "price": 320,
+      "image_url": "/static/images/dish_19.jpg"
     }
   },
   {
@@ -28,7 +31,8 @@
     "metadata": {
       "categories": ["menu", "pasta", "main_dish", "prawn"],
       "dish_name": "Pasta Prawns+Pesto",
-      "price": 360
+      "price": 360,
+      "image_url": "/static/images/dish_14.jpg"
     }
   },
   {
@@ -36,7 +40,8 @@
     "metadata": {
       "categories": ["menu", "pasta", "main_dish", "chicken", "mushrooms"],
       "dish_name": "Pasta Mushrooms and Chicken",
-      "price": 310
+      "price": 310,
+      "image_url": "/static/images/dish_18.jpg"
     }
   },
   {
@@ -44,7 +49,8 @@
     "metadata": {
       "categories": ["menu", "pasta", "main_dish", "salmon"],
       "dish_name": "Pasta Salmon Pesto",
-      "price": 360
+      "price": 360,
+      "image_url": "/static/images/dish_16.jpg"
     }
   },
   {
@@ -52,7 +58,8 @@
     "metadata": {
       "categories": ["menu", "pasta", "main_dish", "meat"],
       "dish_name": "Bolognese",
-      "price": 290
+      "price": 290,
+      "image_url": "/static/images/dish_18.jpg"
     }
   },
   {
@@ -60,7 +67,8 @@
     "metadata": {
       "categories": ["menu", "pasta", "main_dish", "vegetarian", "mushrooms"],
       "dish_name": "Spaghetti with Mushrooms",
-      "price": 270
+      "price": 270,
+      "image_url": "/static/images/dish_21.jpg"
     }
   },
   {
@@ -68,7 +76,8 @@
     "metadata": {
       "categories": ["menu", "pasta", "main_dish", "vegetarian"],
       "dish_name": "Spaghetti with Cheese",
-      "price": 200
+      "price": 200,
+      "image_url": "/static/images/dish_26.jpg"
     }
   },
   {
@@ -76,7 +85,8 @@
     "metadata": {
       "categories": ["menu", "pasta", "main_dish", "chicken"],
       "dish_name": "Spaghetti With Chicken",
-      "price": 300
+      "price": 300,
+      "image_url": "/static/images/dish_23.jpg"
     }
   },
   {
@@ -84,7 +94,8 @@
     "metadata": {
       "categories": ["menu", "pasta", "main_dish", "sausages"],
       "dish_name": "Spaghetti With Sausages",
-      "price": 270
+      "price": 270,
+      "image_url": "/static/images/dish_25.jpg"
     }
   },
   {
@@ -92,7 +103,8 @@
     "metadata": {
       "categories": ["menu", "pasta", "main_dish", "mushrooms", "chicken"],
       "dish_name": "Spaghetti With Mushrooms And Chicken",
-      "price": 290
+      "price": 290,
+      "image_url": "/static/images/dish_24.jpg"
     }
   },
   {
@@ -100,7 +112,8 @@
     "metadata": {
       "categories": ["menu", "pasta", "main_dish", "meat"],
       "dish_name": "Pasta Carbonara",
-      "price": 300
+      "price": 300,
+      "image_url": "/static/images/dish_12.jpg"
     }
   },
   {
@@ -108,7 +121,8 @@
     "metadata": {
       "categories": ["menu", "pasta", "main_dish", "meat"],
       "dish_name": "Spaghetti Carbonara",
-      "price": 300
+      "price": 300,
+      "image_url": "/static/images/dish_20.jpg"
     }
   },
   {
@@ -116,7 +130,8 @@
     "metadata": {
       "categories": ["menu", "ravioli", "main_dish", "meat"],
       "dish_name": "Ravioli Meat Filling",
-      "price": 290
+      "price": 290,
+      "image_url": "/static/images/dish_34.jpg"
     }
   },
   {
@@ -124,7 +139,97 @@
     "metadata": {
       "categories": ["menu", "ravioli", "main_dish", "chicken"],
       "dish_name": "Ravioli Chicken",
-      "price": 270
+      "price": 270,
+      "image_url": "/static/images/dish_15.jpg"
+    }
+  },
+  {
+    "text": "Dish: Caesar Salad With Chicken. Classic Caesar salad with grilled chicken, fresh greens, tomatoes, croutons, and Parmesan. Price: 250 PHP. / Блюдо: Салат Цезарь с курицей. Классический салат Цезарь с курицей-гриль, свежей зеленью, томатами, гренками и пармезаном. Цена: 250 PHP.",
+    "metadata": {
+      "categories": ["menu", "salad", "chicken"],
+      "dish_name": "Caesar Salad With Chicken",
+      "price": 250,
+      "image_url": "/static/images/dish_39.jpg"
+    }
+  },
+  {
+    "text": "Dish: The Ultimate Chicken Soup. Comforting & Delicious! Price: 350 PHP. / Блюдо: Куриный суп. Утешительный и вкусный! Цена: 350 PHP.",
+    "metadata": {
+      "categories": ["menu", "soup", "chicken", "main_dish"],
+      "dish_name": "Chicken Soup",
+      "price": 350,
+      "image_url": "/static/images/dish_40.jpg"
+    }
+  },{
+    "text": "Dish: Margarita Pizza (20 cm). A small Italian pizza featuring a simple and delicious combination of tomato sauce and melted cheese. Size: 20 cm. Price: 300 PHP. / Блюдо: Пицца Маргарита (20 см). Классическая маленькая итальянская пицца с простым и вкусным сочетанием томатного соуса и расплавленного сыра. Размер: 20 см. Цена: 300 PHP.",
+    "metadata": {
+      "categories": ["menu", "pizza", "main_dish", "vegetarian"],
+      "dish_name": "Margarita Pizza small",
+      "price": 300,
+      "image_url": "/static/images/dish_41.jpg"
+    }
+  },
+  {
+    "text": "Dish: Margarita Pizza (30 cm). A medium Italian pizza featuring a simple and delicious combination of tomato sauce and melted cheese. Size: 30 cm. Price: 400 PHP. / Блюдо: Пицца Маргарита (30 см). Классическая средняя итальянская пицца с простым и вкусным сочетанием томатного соуса и расплавленного сыра. Размер: 30 см. Цена: 400 PHP.",
+    "metadata": {
+      "categories": ["menu", "pizza", "main_dish", "vegetarian"],
+      "dish_name": "Margarita Pizza medium",
+      "price": 400,
+      "image_url": "/static/images/dish_41.jpg"
+    }
+  },
+  {
+    "text": "Dish: Margarita Pizza (40 cm). A big Italian pizza featuring a simple and delicious combination of tomato sauce and melted cheese. Size: 40 cm. Price: 600 PHP. / Блюдо: Пицца Маргарита (40 см). Классическая большая итальянская пицца с простым и вкусным сочетанием томатного соуса и расплавленного сыра. Размер: 40 см. Цена: 600 PHP.",
+    "metadata": {
+      "categories": ["menu", "pizza", "main_dish", "vegetarian"],
+      "dish_name": "Margarita Pizza big",
+      "price": 600,
+      "image_url": "/static/images/dish_41.jpg"
+    }
+  },
+  {
+    "text": "Dish: Pepperoni Pizza (20 cm). A small flavorful pizza topped with spicy pepperoni slices and melted cheese. Size: 20 cm. Price: 300 PHP. / Блюдо: Пицца Пепперони (20 см). Вкусная маленькая пицца с ломтиками пикантной пепперони и расплавленным сыром. Размер: 20 см. Цена: 300 PHP.",
+    "metadata": {
+      "categories": ["menu", "pizza", "main_dish", "meat"],
+      "dish_name": "Pepperoni Pizza small",
+      "price": 300,
+      "image_url": "/static/images/dish_42.jpg"
+    }
+  },
+  {
+    "text": "Dish: Pepperoni Pizza (30 cm). A medium flavorful pizza topped with spicy pepperoni slices and melted cheese. Size: 30 cm. Price: 400 PHP. / Блюдо: Пицца Пепперони (30 см). Вкусная средняя пицца с ломтиками пикантной пепперони и расплавленным сыром. Размер: 30 см. Цена: 400 PHP.",
+    "metadata": {
+      "categories": ["menu", "pizza", "main_dish", "meat"],
+      "dish_name": "Pepperoni Pizza medium",
+      "price": 400,
+      "image_url": "/static/images/dish_42.jpg"
+    }
+  },
+  {
+    "text": "Dish: Pepperoni Pizza (40 cm). A big flavorful pizza topped with spicy pepperoni slices and melted cheese. Size: 40 cm. Price: 600 PHP. / Блюдо: Пицца Пепперони (40 см). Вкусная большая пицца с ломтиками пикантной пепперони и расплавленным сыром. Размер: 40 см. Цена: 600 PHP.",
+    "metadata": {
+      "categories": ["menu", "pizza", "main_dish", "meat"],
+      "dish_name": "Pepperoni Pizza big",
+      "price": 600,
+      "image_url": "/static/images/dish_42.jpg"
+    }
+  },
+  {
+    "text": "Dish: Pancakes. Soft, golden stacks served with classic butter and sweet syrup. Price: 200 PHP. / Блюдо: Панкейки. Мягкая стопка золотистых блинчиков, подается с классическим сливочным маслом и сладким сиропом. Цена: 200 PHP.",
+    "metadata": {
+      "categories": ["menu", "breakfast", "sweet", "pancakes"],
+      "dish_name": "Pancakes",
+      "price": 200,
+      "image_url": "/static/images/dish_64.jpg"
+    }
+  },
+  {
+    "text": "Dish: Jam Crepe with Strawberry Jam. A soft, warm crepe topped with a generous portion of sweet strawberry jam. Price: 120 PHP. / Блюдо: Блинчик с джемом. Мягкий теплый блинчик с щедрой порцией сладкого клубничного джема. Цена: 120 PHP.",
+    "metadata": {
+      "categories": ["menu", "crepe", "sweet_crepe", "dessert"],
+      "dish_name": "Jam Crepe with Strawberry Jam",
+      "price": 120,
+      "image_url": "/static/images/dish_44.jpg"
     }
   },
   {
@@ -132,7 +237,8 @@
     "metadata": {
       "categories": ["menu", "crepe", "savoury_crepe", "salmon"],
       "dish_name": "Crepe Philadelphia Salmon Cheese",
-      "price": 390
+      "price": 390,
+      "image_url": "/static/images/dish_55.jpg"
     }
   },
   {
@@ -140,7 +246,8 @@
     "metadata": {
       "categories": ["menu", "crepe", "savoury_crepe", "chicken"],
       "dish_name": "Chicken Cheese Crepe",
-      "price": 280
+      "price": 280,
+      "image_url": "/static/images/dish_1.jpg"
     }
   },
   {
@@ -148,7 +255,8 @@
     "metadata": {
       "categories": ["menu", "crepe", "savoury_crepe", "vegetarian", "mushrooms"],
       "dish_name": "Mushroom Crepe",
-      "price": 280
+      "price": 280,
+      "image_url": "/static/images/dish_3.jpg"
     }
   },
   {
@@ -156,7 +264,8 @@
     "metadata": {
       "categories": ["menu", "crepe", "savoury_crepe", "meat"],
       "dish_name": "Ham & Cheese Crepe",
-      "price": 270
+      "price": 270,
+      "image_url": "/static/images/dish_54.jpg"
     }
   },
   {
@@ -164,7 +273,8 @@
     "metadata": {
       "categories": ["menu", "crepe", "savoury_crepe", "chicken", "mushrooms"],
       "dish_name": "Chicken & Mushroom Crepe",
-      "price": 310
+      "price": 310,
+      "image_url": "/static/images/dish_2.jpg"
     }
   },
   {
@@ -172,7 +282,8 @@
     "metadata": {
       "categories": ["menu", "crepe", "savoury_crepe", "vegetarian"],
       "dish_name": "Extra Cheese Crepe",
-      "price": 200
+      "price": 200,
+      "image_url": "/static/images/dish_5.jpg"
     }
   },
   {
@@ -180,7 +291,8 @@
     "metadata": {
       "categories": ["menu", "crepe", "sweet_crepe", "dessert"],
       "dish_name": "Banana Choco Crepe Banana+Nutella",
-      "price": 240
+      "price": 240,
+      "image_url": "/static/images/dish_11.jpg"
     }
   },
   {
@@ -188,15 +300,35 @@
     "metadata": {
       "categories": ["menu", "crepe", "sweet_crepe", "dessert"],
       "dish_name": "Mango Crepe",
-      "price": 240
+      "price": 240,
+      "image_url": "/static/images/dish_4.jpg"
     }
   },
   {
-    "text": "Dish: Strawberry Choco Crepe. Signature Strawberry: A soft crêpe filled with fresh, juicy strawberries, drizzled with rich chocolate syrup, and finished with a dusting of sugar. Price: 300 PHP / Блюдо: Клубнично-шоколадный блин. Фирменная клубника: мягкий блинчик со свежими сочными ягодами клубники под насыщенным шоколадным сиропом и сахарной пудрой. Цена: 300 PHP",
+    "text": "Dish: Strawberry Choco Crepe. Signature Strawberry: A soft crêpe filled with fresh, juicy strawberries, drizzled with rich chocolate syrup, and finished with a dusting of sugar. Price: 300 PHP / Блюдо: -шоколадный блин. Фирменная клубника: мягкий блинчик со свежими сочными ягодами клубники под насыщенным шоколадным сиропом и сахарной пудрой. Цена: 300 PHP",
     "metadata": {
       "categories": ["menu", "crepe", "sweet_crepe", "dessert"],
       "dish_name": "Strawberry Choco Crepe",
-      "price": 300
+      "price": 300,
+      "image_url": "/static/images/dish_6.jpg"
+    }
+  },
+  {
+    "text": "Dish: Raspberry Choco Crepe. Signature Raspberry: A soft crêpe filled with fresh, juicy raspberries, drizzled with rich chocolate syrup, and finished with a dusting of sugar. Price: 280 PHP / Блюдо: Малиново-шоколадный блин. Фирменная малина: мягкий блинчик со свежими сочными ягодами малины под насыщенным шоколадным сиропом и сахарной пудрой. Цена: 280 PHP",
+    "metadata": {
+      "categories": ["menu", "crepe", "sweet_crepe", "dessert"],
+      "dish_name": "Strawberry Choco Crepe",
+      "price": 280,
+      "image_url": "/static/images/dish_7.jpg"
+    }
+  },
+  {
+    "text": "Dish: Blueberry Choco Crepe. Signature Blueberry: A soft crêpe filled with fresh, juicy blueberries, drizzled with rich chocolate syrup, and finished with a dusting of sugar. Price: 280 PHP / Блюдо: Чернично-шоколадный блин. Фирменная черника: мягкий блинчик со свежими сочными ягодами черники под насыщенным шоколадным сиропом и сахарной пудрой. Цена: 280 PHP",
+    "metadata": {
+      "categories": ["menu", "crepe", "sweet_crepe", "dessert"],
+      "dish_name": "Strawberry Choco Crepe",
+      "price": 280,
+      "image_url": "/static/images/dish_8.jpg"
     }
   },
   {
@@ -204,7 +336,8 @@
     "metadata": {
       "categories": ["menu", "crepe", "sweet_crepe", "dessert"],
       "dish_name": "Crepe With Condensed Milk",
-      "price": 160
+      "price": 160,
+      "image_url": "/static/images/dish_22.jpg"
     }
   },
   {
@@ -212,7 +345,8 @@
     "metadata": {
       "categories": ["menu", "crepe", "sweet_crepe", "dessert"],
       "dish_name": "Honey & Butter Crepe",
-      "price": 120
+      "price": 120,
+      "image_url": "/static/images/dish_51.jpg"
     }
   },
   {
@@ -220,7 +354,8 @@
     "metadata": {
       "categories": ["menu", "crepe", "sweet_crepe", "dessert"],
       "dish_name": "Salted Caramel Dream",
-      "price": 120
+      "price": 120,
+      "image_url": "/static/images/dish_52.jpg"
     }
   },
   {
@@ -228,7 +363,8 @@
     "metadata": {
       "categories": ["menu", "crepe", "sweet_crepe", "dessert"],
       "dish_name": "Chocolate Drizzle Crepe",
-      "price": 120
+      "price": 120,
+      "image_url": "/static/images/dish_33.jpg"
     }
   },
   {
@@ -236,7 +372,8 @@
     "metadata": {
       "categories": ["menu", "crepe", "sweet_crepe", "dessert"],
       "dish_name": "Strawberry Syrup Crepe",
-      "price": 120
+      "price": 120,
+      "image_url": "/static/images/dish_53.jpg"
     }
   },
   {
@@ -244,7 +381,8 @@
     "metadata": {
       "categories": ["menu", "breakfast", "meat"],
       "dish_name": "English Breakfast",
-      "price": 280
+      "price": 280,
+      "image_url": "/static/images/dish_9.jpg"
     }
   },
   {
@@ -252,7 +390,8 @@
     "metadata": {
       "categories": ["menu", "breakfast", "vegetarian"],
       "dish_name": "Shakshuka",
-      "price": 280
+      "price": 280,
+      "image_url": "/static/images/dish_65.jpg"
     }
   },
   {
@@ -260,23 +399,44 @@
     "metadata": {
       "categories": ["menu", "breakfast", "chicken"],
       "dish_name": "Shakshuka With Chicken",
-      "price": 320
+      "price": 320,
+      "image_url": "/static/images/dish_62.jpg"
     }
   },
   {
-    "text": "Dish: Omelet With Cheese. Fluffy eggs folded with a generous melt of premium cheese. Price: 200 PHP / Блюдо: Омлет с сыром. Воздушный омлет с большим количеством расплавленного отборного сыра. Цена: 200 PHP",
+    "text": "Dish: Oatmeal. A warm, comforting bowl of creamy oats, perfect for a healthy start to your day. Price: 150 PHP. / Блюдо: Овсянка. Теплая, уютная миска нежной овсяной каши, идеальный вариант для здорового начала дня. Цена: 150 PHP.",
+    "metadata": {
+      "categories": ["menu", "breakfast", "vegetarian", "healthy"],
+      "dish_name": "Oatmeal",
+      "price": 150,
+      "image_url": "/static/images/dish_66.jpg"
+    }
+  },
+  {
+    "text": "Dish: Glaze With Salmon. Sunny-side-up eggs paired with smoked salmon and fresh greens. Price: 360 PHP. / Блюдо: Глазунья с лососем. Яичница-глазунья в сочетании с копченым лососем и свежей зеленью. Цена: 360 PHP.",
+    "metadata": {
+      "categories": ["menu", "breakfast", "fish"],
+      "dish_name": "Glaze With Salmon",
+      "price": 360,
+      "image_url": "/static/images/dish_67.jpg"
+    }
+  },
+  {
+    "text": "Dish: Omelet with cheese. Fluffy eggs folded with a generous melt of premium cheese. Price: 200 PHP / Блюдо: Омлет с сыром. Воздушный омлет с большим количеством расплавленного отборного сыра. Цена: 200 PHP",
     "metadata": {
       "categories": ["menu", "breakfast", "vegetarian"],
-      "dish_name": "Omelet With Cheese",
-      "price": 200
+      "dish_name": "Omelet with cheese",
+      "price": 200,
+      "image_url": "/static/images/dish_68.jpg"
     }
   },
   {
-    "text": "Dish: Cheese Plate. A Perfect Pairing: A curated selection of four exquisite European cheeses—tangy Danish Blue, classic Cheddar, nutty Emmental, and mild Gouda Germany. Served with crisp crackers, fresh fruit, and sweet honey for dipping. Price: 500 PHP / Блюдо: Сырная тарелка. Идеальное сочетание: набор из четырех изысканных европейских сыров — пикантный Даниш Блю, классический чеддер, ореховый эмменталь и мягкая немецкая гауда. Подается с хрустящими крекерами, свежими фруктами и натуральным медом. Цена: 500 PHP",
+    "text": "Dish: Cheese Plate. A Perfect Pairing: A curated selection of four exquisite European cheeses—tangy Danish Blue, classic Cheddar, nutty Emmental, and mild Gouda Germany. Served with crisp crackers, fresh fruit, and sweet honey for dipping. Price: 720 PHP / Блюдо: Сырная тарелка. Идеальное сочетание: набор из четырех изысканных европейских сыров — пикантный Даниш Блю, классический чеддер, ореховый эмменталь и мягкая немецкая гауда. Подается с хрустящими крекерами, свежими фруктами и натуральным медом. Цена: 720 PHP",
     "metadata": {
       "categories": ["menu", "appetizer", "cheese", "vegetarian"],
       "dish_name": "Cheese Plate",
-      "price": 500
+      "price": 720,
+      "image_url": "/static/images/dish_27.jpg"
     }
   },
   {
@@ -284,7 +444,8 @@
     "metadata": {
       "categories": ["menu", "soup", "main_dish", "борщ"],
       "dish_name": "Borsh",
-      "price": 350
+      "price": 350,
+      "image_url": "/static/images/dish_60.jpg"
     }
   },
   {
@@ -292,7 +453,8 @@
     "metadata": {
       "categories": ["menu", "main_dish", "meat"],
       "dish_name": "Manti",
-      "price": 350
+      "price": 350,
+      "image_url": "/static/images/dish_61.jpg"
     }
   },
   {
@@ -300,7 +462,8 @@
     "metadata": {
       "categories": ["menu", "appetizer", "meat", "platter"],
       "dish_name": "\"Meat Feast\" Platter",
-      "price": 700
+      "price": 700,
+      "image_url": "/static/images/dish_63.jpg"
     }
   },
   {
@@ -308,7 +471,8 @@
     "metadata": {
       "categories": ["menu", "drinks", "shake", "шейк", "напитки"],
       "dish_name": "Mango Shake",
-      "price": 300
+      "price": 300,
+      "image_url": "/static/images/dish_72.jpg"
     }
   },
   {
@@ -316,38 +480,18 @@
     "metadata": {
       "categories": ["menu", "drinks", "shake", "шейк", "напитки"],
       "dish_name": "Banana Shake",
-      "price": 300
+      "price": 300,
+      "image_url": "/static/images/dish_74.jpg"
     }
   },
-  {
-    "text": "Dish: Strawberry Shake (drink). Sweet and vibrant blended strawberry drink. Price: 300 PHP. / Блюдо: Клубничный шейк (напиток). Сладкий и яркий напиток со взбитой клубникой. Цена: 300 PHP.",
-    "metadata": {
-      "categories": ["menu", "drinks", "shake", "шейк", "напитки"],
-      "dish_name": "Strawberry Shake",
-      "price": 300
-    }
-  },
-  {
-    "text": "Vegetarian options: We offer Shakshuka, Spaghetti with Mushrooms, Cheese Plate, 2 types of khachapuri and various sweet crepes. Please ask the waiter for more details. / Вегетарианские блюда: Мы предлагаем шакшуку, спагетти с грибами, сырную тарелку и различные сладкие блинчики",
-    "metadata": {
-      "categories": ["menu", "vegetarian"],
-      "price": 1
-    }
-  },
-  {
-    "text": "Dish: Khachapuri Adjaruli Style. The Ultimate Cheese Boat! A traditional crusty bread filled with a generous amount of melted cheese, topped with a pat of butter and a fresh egg yolk. Price: 350 PHP. / Блюдо: Хачапури по-аджарски. Сырная лодочка! Традиционная хрустящая выпечка с обилием расплавленного сыра, кусочком сливочного масла и свежим яичным желтком. Цена: 350 PHP.",
-    "metadata": {
-      "categories": ["menu", "main_dish", "khachapuri", "vegetarian"],
-      "dish_name": "Khachapuri Adjaruli Style",
-      "price": 350
-    }
-  },
+
   {
     "text": "Dish: Khachapuri Vegetable Style. The Ultimate Khachapuri with cheese and a mix of fresh vegetables, topped with a fresh egg yolk. Price: 400 PHP. / Блюдо: Хачапури с овощами. Сыр и ассорти из свежих овощей в традиционной лодочке, дополненные свежим яичным желтком. Цена: 400 PHP.",
     "metadata": {
       "categories": ["menu", "main_dish", "khachapuri", "vegetarian"],
       "dish_name": "Khachapuri Vegetable Style",
-      "price": 400
+      "price": 400,
+      "image_url": "/static/images/dish_69.jpg"
     }
   },
   {
@@ -355,7 +499,249 @@
     "metadata": {
       "categories": ["menu", "main_dish", "khachapuri", "meat"],
       "dish_name": "Khachapuri Pepperoni Style",
-      "price": 400
+      "price": 400,
+      "image_url": "/static/images/dish_59.jpg"
+    }
+  },
+  {
+    "text": "Dish: Caesar Salad. Classic Caesar salad with fresh greens, tomatoes, croutons, and Parmesan. Price: 220 PHP / Блюдо: Салат «Цезарь». Классический салат «Цезарь» со свежей зеленью, томатами, гренками и пармезаном. Цена: 220 PHP",
+    "metadata": {
+      "categories": ["menu", "salad", "vegetarian"],
+      "dish_name": "Caesar Salad",
+      "price": 220,
+      "image_url": "/static/images/dish_70.jpg"
+    }
+  },
+  {
+    "text": "Dish: Caesar Salad With Shrimp. Classic Caesar salad with plump shrimp, fresh greens, tomatoes, croutons, and Parmesan. Price: 280 PHP / Блюдо: Салат «Цезарь» с креветками. Классический салат «Цезарь» с сочными креветками, свежей зеленью, томатами, гренками и пармезаном. Цена: 280 PHP",
+    "metadata": {
+      "categories": ["menu", "salad", "seafood"],
+      "dish_name": "Caesar Salad With Shrimp",
+      "price": 280,
+      "image_url": "/static/images/dish_71.jpg"
+    }
+  },
+  {
+    "text": "Dish: Strawberry Shake (drink). Sweet and vibrant blended strawberry drink. Price: 300 PHP. / Блюдо: Клубничный шейк (напиток). Сладкий и яркий напиток со взбитой клубникой. Цена: 300 PHP.",
+    "metadata": {
+      "categories": ["menu", "drinks", "shake", "шейк", "напитки"],
+      "dish_name": "Strawberry Shake",
+      "price": 300,
+      "image_url": "/static/images/dish_73.jpg"
+    }
+  },
+  {
+    "text": "Dish: Khachapuri Adjaruli Style. The Ultimate Cheese Boat! A traditional crusty bread filled with a generous amount of melted cheese, topped with a pat of butter and a fresh egg yolk. Price: 350 PHP. / Блюдо: Хачапури по-аджарски. Сырная лодочка! Традиционная хрустящая выпечка с обилием расплавленного сыра, кусочком сливочного масла и свежим яичным желтком. Цена: 350 PHP.",
+    "metadata": {
+      "categories": ["menu", "main_dish", "khachapuri", "vegetarian"],
+      "dish_name": "Khachapuri Adjaruli Style",
+      "price": 350,
+      "image_url": "/static/images/dish_58.jpg"
+    }
+  },
+  {
+    "text": "Dish: Red Horse Beer. Extra strong beer with a distinctively full-flavored taste. Price: 120 PHP. / Блюдо: Пиво Red Horse. Экстра крепкое пиво с характерным насыщенным вкусом. Цена: 120 PHP.",
+    "metadata": {
+      "categories": ["menu", "drinks", "alcohol", "beer"],
+      "dish_name": "Red Horse Beer",
+      "price": 120,
+      "image_url": "/static/images/dish_78.jpg"
+    }
+  },
+  {
+    "text": "Dish: San Miguel Pale Pilsen. Traditional pale lager with a rich, full-bodied flavor. Price: 100 PHP. / Блюдо: San Miguel Pale Pilsen. Традиционный светлый лагер с насыщенным полным вкусом. Цена: 100 PHP.",
+    "metadata": {
+      "categories": ["menu", "drinks", "alcohol", "beer"],
+      "dish_name": "San Miguel Pale Pilsen",
+      "price": 100,
+      "image_url": "/static/images/dish_95.jpg"
+    }
+  },
+  {
+    "text": "Dish: San Mig Light. Low calorie, light beer with a smooth finish. Price: 100 PHP. / Блюдо: San Mig Light. Легкое низкокалорийное пиво с мягким послевкусием. Цена: 100 PHP.",
+    "metadata": {
+      "categories": ["menu", "drinks", "alcohol", "beer"],
+      "dish_name": "San Mig Light",
+      "price": 100,
+      "image_url": "/static/images/dish_93.jpg"
+    }
+  },
+  {
+    "text": "Dish: San Miguel Flavored Beer Lemon. Refreshing beer with a twist of lemon. Price: 100 PHP. / Блюдо: San Miguel с лимоном. Освежающее пиво с нотками лимона. Цена: 100 PHP.",
+    "metadata": {
+      "categories": ["menu", "drinks", "alcohol", "beer"],
+      "dish_name": "San Miguel Flavored Beer Lemon",
+      "price": 100,
+      "image_url": "/static/images/dish_96.jpg"
+    }
+  },
+  {
+    "text": "Dish: San Miguel Flavored Beer Apple. Refreshing beer with a sweet apple twist. Price: 100 PHP. / Блюдо: San Miguel с яблоком. Освежающее пиво с яблочным вкусом. Цена: 100 PHP.",
+    "metadata": {
+      "categories": ["menu", "drinks", "alcohol", "beer"],
+      "dish_name": "San Miguel Flavored Beer Apple",
+      "price": 100,
+      "image_url": "/static/images/dish_86.jpg"
+    }
+  },
+  {
+    "text": "Dish: Ballantine's Finest. Blended Scotch whisky with a complex, refined taste. Price: 250 PHP. / Блюдо: Виски Ballantine's Finest. Купажированный шотландский виски со сложным, изысканным вкусом. Цена: 250 PHP.",
+    "metadata": {
+      "categories": ["menu", "drinks", "alcohol", "whisky"],
+      "dish_name": "Ballantine's Finest",
+      "price": 250,
+      "image_url": "/static/images/dish_94.jpg"
+    }
+  },
+  {
+    "text": "Dish: Jack Daniel's Tennessee Whiskey. Smooth charcoal-mellowed Tennessee whiskey. Price: 250 PHP. / Блюдо: Виски Jack Daniel's. Мягкий теннессийский виски, прошедший угольную фильтрацию. Цена: 250 PHP.",
+    "metadata": {
+      "categories": ["menu", "drinks", "alcohol", "whiskey"],
+      "dish_name": "Jack Daniel's Tennessee Whiskey",
+      "price": 250,
+      "image_url": "/static/images/dish_87.jpg"
+    }
+  },
+  {
+    "text": "Dish: Tanduay White Rum. Smooth and crisp white rum, perfect for cocktails. Price: 120 PHP. / Блюдо: Ром Tanduay White. Мягкий и свежий белый ром, идеально подходящий для коктейлей. Цена: 120 PHP.",
+    "metadata": {
+      "categories": ["menu", "drinks", "alcohol", "rum"],
+      "dish_name": "Tanduay White Rum",
+      "price": 120,
+      "image_url": "/static/images/dish_79.jpg"
+    }
+  },
+  {
+    "text": "Dish: Jose Cuervo Especial. Classic golden tequila with a sweet, agave-forward flavor. Price: 220 PHP. / Блюдо: Текила Jose Cuervo Especial. Классическая золотая текила со сладким вкусом агавы. Цена: 220 PHP.",
+    "metadata": {
+      "categories": ["menu", "drinks", "alcohol", "tequila"],
+      "dish_name": "Jose Cuervo Especial",
+      "price": 220,
+      "image_url": "/static/images/dish_83.jpg"
+    }
+  },
+  {
+    "text": "Dish: GSM Premium Gin. Smooth premium gin made from juniper berries. Price: 150 PHP. / Блюдо: Джин GSM Premium. Мягкий премиальный джин из ягод можжевельника. Цена: 150 PHP.",
+    "metadata": {
+      "categories": ["menu", "drinks", "alcohol", "gin"],
+      "dish_name": "GSM Premium Gin",
+      "price": 150,
+      "image_url": "/static/images/dish_82.jpg"
+    }
+  },
+  {
+    "text": "Dish: Absolut Vodka. Rich, full-bodied and complex, yet smooth and mellow vodka. Price: 200 PHP. / Блюдо: Водка Absolut. Насыщенная, сложная, но при этом мягкая водка. Цена: 200 PHP.",
+    "metadata": {
+      "categories": ["menu", "drinks", "alcohol", "vodka"],
+      "dish_name": "Absolut Vodka",
+      "price": 200,
+      "image_url": "/static/images/dish_81.jpg"
+    }
+  },
+  {
+    "text": "Dish: Jägermeister. Herbal liqueur made from 56 herbs and spices. Price: 200 PHP. / Блюдо: Ликер Jägermeister. Травяной ликер, созданный из 56 трав и специй. Цена: 200 PHP.",
+    "metadata": {
+      "categories": ["menu", "drinks", "alcohol", "liqueur"],
+      "dish_name": "Jägermeister",
+      "price": 200,
+      "image_url": "/static/images/dish_80.jpg"
+    }
+  },
+  {
+    "text": "Dish: Red Wine. A glass of rich, full-bodied red wine. Price: 150 PHP. / Блюдо: Красное вино. Бокал насыщенного красного вина. Цена: 150 PHP.",
+    "metadata": {
+      "categories": ["menu", "drinks", "alcohol", "wine"],
+      "dish_name": "Red Wine",
+      "price": 150,
+      "image_url": "/static/images/dish_99.jpg"
+    }
+  },
+  {
+    "text": "Dish: White Wine. Crisp and refreshing white wine. Price: 150 PHP. / Блюдо: Белое вино. Свежее и легкое белое вино. Цена: 150 PHP.",
+    "metadata": {
+      "categories": ["menu", "drinks", "alcohol", "wine"],
+      "dish_name": "White Wine",
+      "price": 150,
+      "image_url": "/static/images/dish_88.jpg"
+    }
+  },
+  {
+    "text": "Dish: Orange Juice. Fresh and citrusy orange juice. Price: 60 PHP. / Блюдо: Апельсиновый сок. Свежий и цитрусовый апельсиновый сок. Цена: 60 PHP.",
+    "metadata": {
+      "categories": ["menu", "drinks", "soft_drinks", "juice"],
+      "dish_name": "Orange Juice",
+      "price": 60,
+      "image_url": "/static/images/dish_89.jpg"
+    }
+  },
+  {
+    "text": "Dish: Apple Juice. Sweet and refreshing apple juice. Price: 60 PHP. / Блюдо: Яблочный сок. Сладкий и освежающий яблочный сок. Цена: 60 PHP.",
+    "metadata": {
+      "categories": ["menu", "drinks", "soft_drinks", "juice"],
+      "dish_name": "Apple Juice",
+      "price": 60,
+      "image_url": "/static/images/dish_75.jpg"
+    }
+  },
+  {
+    "text": "Dish: Sprite. Crisp, refreshing lemon-lime soda. Price: 30 PHP. / Блюдо: Sprite. Свежий газированный напиток со вкусом лимона и лайма. Цена: 30 PHP.",
+    "metadata": {
+      "categories": ["menu", "drinks", "soft_drinks"],
+      "dish_name": "Sprite",
+      "price": 30,
+      "image_url": "/static/images/dish_97.jpg"
+    }
+  },
+  {
+    "text": "Dish: Coca-Cola. The classic, refreshing cola drink. Price: 30 PHP. / Блюдо: Coca-Cola. Классический освежающий напиток кола. Цена: 30 PHP.",
+    "metadata": {
+      "categories": ["menu", "drinks", "soft_drinks"],
+      "dish_name": "Coca-Cola",
+      "price": 30,
+      "image_url": "/static/images/dish_98.jpg"
+    }
+  },
+  {
+    "text": "Dish: Coca-Cola Zero Sugar. Real Coke taste with zero sugar. Price: 80 PHP. / Блюдо: Coca-Cola Zero Sugar. Настоящий вкус колы без сахара. Цена: 80 PHP.",
+    "metadata": {
+      "categories": ["menu", "drinks", "soft_drinks", "sugar_free"],
+      "dish_name": "Coca-Cola Zero Sugar",
+      "price": 80,
+      "image_url": "/static/images/dish_90.jpg"
+    }
+  },
+  {
+    "text": "Dish: Pepsi. Classic cola taste with a refreshing finish. Price: 70 PHP. / Блюдо: Pepsi. Классический вкус колы с освежающим послевкусием. Цена: 70 PHP.",
+    "metadata": {
+      "categories": ["menu", "drinks", "soft_drinks"],
+      "dish_name": "Pepsi",
+      "price": 70,
+      "image_url": "/static/images/dish_77.jpg"
+    }
+  },
+  {
+    "text": "Dish: Lipton Ice Tea. Refreshing iced tea with zesty lemon flavor. Price: 40 PHP. / Блюдо: Lipton Ice Tea. Освежающий холодный чай с ярким лимонным вкусом. Цена: 40 PHP.",
+    "metadata": {
+      "categories": ["menu", "drinks", "soft_drinks", "tea"],
+      "dish_name": "Lipton Ice Tea",
+      "price": 40,
+      "image_url": "/static/images/dish_85.jpg"
+    }
+  },
+  {
+    "text": "Dish: Schweppes Tonic Water. Classic carbonated tonic water. Price: 80 PHP. / Блюдо: Тоник Schweppes. Классический газированный тоник. Цена: 80 PHP.",
+    "metadata": {
+      "categories": ["menu", "drinks", "soft_drinks", "mixer"],
+      "dish_name": "Schweppes Tonic Water",
+      "price": 80,
+      "image_url": "/static/images/dish_76.jpg"
+    }
+  },
+  {
+    "text": "Vegetarian options: We offer Shakshuka, Spaghetti with Mushrooms, Cheese Plate, 2 types of khachapuri and various sweet crepes. Please ask the waiter for more details. / Вегетарианские блюда: Мы предлагаем шакшуку, спагетти с грибами, сырную тарелку и различные сладкие блинчики",
+    "metadata": {
+      "categories": ["info","menu", "vegetarian"],
+      "price": 1
     }
   },
   {

@@ -19,9 +19,6 @@ logging.basicConfig(
 
 # DATABASE_URL = f"postgresql+asyncpg://{user}:{password}@{host}:{port}/{dbname}"
 
-
-
-
 async def main():
     async with engine.begin() as conn:
         await conn.run_sync(SQLModel.metadata.create_all)

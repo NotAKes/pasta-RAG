@@ -151,18 +151,27 @@
       return (it.metadata && it.metadata[key] != null) ? it.metadata[key] : def;
     }
 
+    // Technical "info" blocks feed the AI bot's knowledge base — they are not
+    // dishes. We hide them from the admin UI but keep them in `items` so they
+    // are preserved untouched when the menu is saved.
+    function isInfoItem(it) {
+      return !!(it.metadata && Array.isArray(it.metadata.categories) && it.metadata.categories[0] === 'info');
+    }
+
     function render() {
       const list = document.getElementById('list');
       list.innerHTML = '';
-      document.getElementById('count').textContent = items.length + ' items';
 
+      let shown = 0;
       items.forEach((it, idx) => {
+        if (isInfoItem(it)) return; // skip technical info blocks
+        shown++;
         const card = document.createElement('div');
         card.className = 'card';
+        card.dataset.idx = idx;
         const img = metaVal(it, 'image_url');
         const imgSrc = img && img.startsWith('http') ? img : (img || '');
         const cats = (it.metadata && Array.isArray(it.metadata.categories)) ? it.metadata.categories.join(', ') : '';
-        const isInfo = (it.metadata && Array.isArray(it.metadata.categories) && it.metadata.categories[0] === 'info');
 
         card.innerHTML = `
           <div class="thumb-col">
@@ -184,16 +193,18 @@
             <input value="${escAttr(metaVal(it, 'image_url'))}" oninput="setMeta(${idx},'image_url',this.value); refreshThumb(${idx},this.value)"/>
             <label>Categories (comma separated)</label>
             <input value="${escAttr(cats)}" oninput="setCategories(${idx}, this.value)"/>
-            <label>Text / description ${isInfo ? '<span class="badge">(info block)</span>' : ''}</label>
+            <label>Text / description</label>
             <textarea rows="3" oninput="setText(${idx}, this.value)">${escHtml(it.text || '')}</textarea>
           </div>
           <div class="card-actions">
-            <span class="badge">#${idx + 1}</span>
+            <span class="badge">#${shown}</span>
             <button class="btn danger" onclick="removeDish(${idx})">Delete</button>
           </div>
         `;
         list.appendChild(card);
       });
+
+      document.getElementById('count').textContent = shown + ' dishes';
     }
 
     function escAttr(s) { return String(s == null ? '' : s).replace(/"/g, '&quot;'); }
@@ -206,7 +217,7 @@
       ensureMeta(idx).categories = val.split(',').map(s => s.trim()).filter(Boolean);
     }
     function refreshThumb(idx, val) {
-      const card = document.querySelectorAll('.card')[idx];
+      const card = document.querySelector('.card[data-idx="' + idx + '"]');
       if (card) card.querySelector('.thumb').src = val || 'https://placehold.co/120x90?text=No+Img';
     }
 

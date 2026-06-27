@@ -10,6 +10,7 @@ services:
     volumes:
       - ./model_weights:/app/hf_cache
       - ./instruction.json:/app/instruction.json
+      - ./static/images:/app/static/images
       - ./logs:/app/logs
     environment:
       - PYTHONUNBUFFERED=1

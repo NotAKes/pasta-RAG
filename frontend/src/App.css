@@ -50,6 +50,17 @@ body {
   font-size: 14px;
 }
 
+.input-required {
+  border-color: #e0a200 !important;
+}
+
+.contact-warning {
+  margin: 6px 2px 0;
+  font-size: 12px;
+  line-height: 1.35;
+  color: #c47f00;
+}
+
 /* --- Список товаров --- */
 .product-list {
   display: grid;

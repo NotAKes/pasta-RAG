@@ -2,6 +2,10 @@ from contextlib import asynccontextmanager
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, Header, HTTPException, Request, Depends
 import json
+import os
+import re
+import time
+import base64
 import asyncio
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy import text, select
@@ -138,6 +142,83 @@ async def api_read_menu(request: Request, x_secret_token: str = Header(None)):
     except Exception as e:
         print(f"ERROR: {str(e)}")
         return {"error": str(e)}
+
+# ==========================================================================
+# 🔐 ADMIN PANEL — управление меню (блюда, цены, картинки и т.д.)
+# ==========================================================================
+
+INSTRUCTION_PATH = "/app/instruction.json"
+IMAGES_DIR = "/app/static/images"
+# Токен админки. Задаётся через переменную окружения admin_token (.env).
+ADMIN_TOKEN = os.getenv("admin_token", "notakes")
+
+
+def _check_admin(token: Optional[str]):
+    if not token or token != ADMIN_TOKEN:
+        raise HTTPException(status_code=403, detail="Invalid admin token")
+
+
+@app.get("/api/admin/menu")
+async def admin_get_menu(x_admin_token: str = Header(None)):
+    """Возвращает полный instruction.json (включая info-блоки) для редактирования."""
+    _check_admin(x_admin_token)
+    with open(INSTRUCTION_PATH, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+@app.post("/api/admin/menu")
+async def admin_save_menu(request: Request, x_admin_token: str = Header(None)):
+    """Полностью перезаписывает instruction.json переданным массивом."""
+    _check_admin(x_admin_token)
+    data = await request.json()
+    if not isinstance(data, list):
+        raise HTTPException(status_code=400, detail="Expected a JSON array")
+
+    # Лёгкая валидация структуры
+    for item in data:
+        if not isinstance(item, dict) or "metadata" not in item:
+            raise HTTPException(status_code=400, detail="Each item needs a 'metadata' object")
+
+    tmp_path = INSTRUCTION_PATH + ".tmp"
+    with open(tmp_path, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=2)
+    os.replace(tmp_path, INSTRUCTION_PATH)
+    return {"status": "ok", "count": len(data)}
+
+
+@app.post("/api/admin/upload")
+async def admin_upload(request: Request, x_admin_token: str = Header(None)):
+    """Принимает картинку как base64 (или data-URL) и сохраняет её в /static/images."""
+    _check_admin(x_admin_token)
+    body = await request.json()
+    raw = body.get("data")
+    if not raw:
+        raise HTTPException(status_code=400, detail="Missing 'data'")
+
+    ext = "jpg"
+    if isinstance(raw, str) and raw.startswith("data:"):
+        header, raw = raw.split(",", 1)
+        m = re.search(r"image/(\w+)", header)
+        if m:
+            ext = m.group(1).lower().replace("jpeg", "jpg")
+
+    try:
+        binary = base64.b64decode(raw)
+    except Exception:
+        raise HTTPException(status_code=400, detail="Invalid base64 data")
+
+    if len(binary) > 8 * 1024 * 1024:
+        raise HTTPException(status_code=400, detail="Image too large (max 8MB)")
+    if ext not in ("jpg", "png", "webp", "gif"):
+        ext = "jpg"
+
+    os.makedirs(IMAGES_DIR, exist_ok=True)
+    filename = f"dish_upload_{int(time.time() * 1000)}.{ext}"
+    with open(os.path.join(IMAGES_DIR, filename), "wb") as f:
+        f.write(binary)
+
+    return {"url": f"/static/images/{filename}"}
+
 
 app.mount("/static", StaticFiles(directory="/app/static"), name="static_assets")
 

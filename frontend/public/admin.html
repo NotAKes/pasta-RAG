@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pastabar · Admin</title>
+  <style>
+    :root {
+      --bg: #f4f5f7;
+      --card: #ffffff;
+      --text: #1c1c1e;
+      --muted: #8a8a8e;
+      --accent: #2cab37;
+      --danger: #e23b3b;
+      --border: #e3e3e8;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+    header {
+      position: sticky; top: 0; z-index: 10;
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 16px;
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    header h1 { font-size: 18px; margin: 0; flex: 1; }
+    .wrap { max-width: 900px; margin: 0 auto; padding: 16px; }
+    .btn {
+      border: none; border-radius: 8px; padding: 10px 16px;
+      font-size: 14px; font-weight: 600; cursor: pointer;
+      background: var(--accent); color: #fff;
+    }
+    .btn.secondary { background: #e9e9ee; color: var(--text); }
+    .btn.danger { background: var(--danger); color: #fff; }
+    .btn:disabled { opacity: .5; cursor: default; }
+    input, textarea {
+      width: 100%; padding: 9px 11px; border: 1px solid var(--border);
+      border-radius: 8px; font-size: 14px; background: #fff; color: var(--text);
+      font-family: inherit;
+    }
+    label { display: block; font-size: 12px; color: var(--muted); margin: 8px 0 3px; font-weight: 600; }
+    .login-box {
+      max-width: 360px; margin: 80px auto; background: var(--card);
+      padding: 24px; border-radius: 14px; border: 1px solid var(--border);
+    }
+    .login-box h2 { margin: 0 0 16px; }
+    .card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 16px; margin-bottom: 16px;
+      display: grid; grid-template-columns: 120px 1fr; gap: 16px;
+    }
+    .thumb-col { display: flex; flex-direction: column; gap: 8px; align-items: center; }
+    .thumb {
+      width: 120px; height: 90px; object-fit: cover; border-radius: 10px;
+      background: #eee; border: 1px solid var(--border);
+    }
+    .row { display: flex; gap: 10px; }
+    .row > div { flex: 1; }
+    .card-actions { grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: center; }
+    .badge { font-size: 11px; color: var(--muted); }
+    .toast {
+      position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+      background: #1c1c1e; color: #fff; padding: 12px 20px; border-radius: 10px;
+      font-size: 14px; opacity: 0; transition: opacity .25s; pointer-events: none; z-index: 100;
+    }
+    .toast.show { opacity: 1; }
+    .hidden { display: none; }
+    .small { font-size: 12px; color: var(--muted); }
+    @media (max-width: 560px) {
+      .card { grid-template-columns: 1fr; }
+      .thumb-col { flex-direction: row; }
+      .thumb { width: 90px; height: 68px; }
+    }
+  </style>
+</head>
+<body>
+  <!-- LOGIN -->
+  <div id="login" class="login-box">
+    <h2>🍝 Admin Login</h2>
+    <label>Admin token</label>
+    <input id="token" type="password" placeholder="Enter admin token" />
+    <div style="height:14px"></div>
+    <button class="btn" style="width:100%" onclick="login()">Sign in</button>
+    <p id="loginError" class="small" style="color:var(--danger)"></p>
+  </div>
+
+  <!-- PANEL -->
+  <div id="panel" class="hidden">
+    <header>
+      <h1>🍝 Menu Admin</h1>
+      <span id="count" class="badge"></span>
+      <button class="btn secondary" onclick="addDish()">+ Add dish</button>
+      <button class="btn" id="saveBtn" onclick="saveAll()">💾 Save all</button>
+      <button class="btn secondary" onclick="logout()">Logout</button>
+    </header>
+    <div class="wrap" id="list"></div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <script>
+    const API = ''; // same origin
+    let TOKEN = localStorage.getItem('admin_token') || '';
+    let items = []; // raw instruction.json items
+
+    function toast(msg, ms = 2200) {
+      const t = document.getElementById('toast');
+      t.textContent = msg; t.classList.add('show');
+      clearTimeout(t._t); t._t = setTimeout(() => t.classList.remove('show'), ms);
+    }
+
+    async function login() {
+      const tk = document.getElementById('token').value.trim();
+      if (!tk) return;
+      TOKEN = tk;
+      const ok = await loadMenu();
+      if (ok) {
+        localStorage.setItem('admin_token', tk);
+      } else {
+        document.getElementById('loginError').textContent = 'Invalid token or server error.';
+      }
+    }
+
+    function logout() {
+      localStorage.removeItem('admin_token');
+      TOKEN = '';
+      document.getElementById('panel').classList.add('hidden');
+      document.getElementById('login').classList.remove('hidden');
+    }
+
+    async function loadMenu() {
+      try {
+        const r = await fetch(API + '/api/admin/menu', { headers: { 'X-Admin-Token': TOKEN } });
+        if (!r.ok) return false;
+        items = await r.json();
+        document.getElementById('login').classList.add('hidden');
+        document.getElementById('panel').classList.remove('hidden');
+        render();
+        return true;
+      } catch (e) {
+        return false;
+      }
+    }
+
+    function metaVal(it, key, def = '') {
+      return (it.metadata && it.metadata[key] != null) ? it.metadata[key] : def;
+    }
+
+    function render() {
+      const list = document.getElementById('list');
+      list.innerHTML = '';
+      document.getElementById('count').textContent = items.length + ' items';
+
+      items.forEach((it, idx) => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        const img = metaVal(it, 'image_url');
+        const imgSrc = img && img.startsWith('http') ? img : (img || '');
+        const cats = (it.metadata && Array.isArray(it.metadata.categories)) ? it.metadata.categories.join(', ') : '';
+        const isInfo = (it.metadata && Array.isArray(it.metadata.categories) && it.metadata.categories[0] === 'info');
+
+        card.innerHTML = `
+          <div class="thumb-col">
+            <img class="thumb" src="${imgSrc}" onerror="this.src='https://placehold.co/120x90?text=No+Img'"/>
+            <button class="btn secondary" style="font-size:12px;padding:6px 10px" onclick="pickImage(${idx})">Upload</button>
+          </div>
+          <div>
+            <div class="row">
+              <div>
+                <label>Dish name</label>
+                <input value="${escAttr(metaVal(it, 'dish_name'))}" oninput="setMeta(${idx},'dish_name',this.value)"/>
+              </div>
+              <div style="max-width:120px">
+                <label>Price (PHP)</label>
+                <input type="number" value="${metaVal(it, 'price', 0)}" oninput="setMeta(${idx},'price',Number(this.value))"/>
+              </div>
+            </div>
+            <label>Image URL</label>
+            <input value="${escAttr(metaVal(it, 'image_url'))}" oninput="setMeta(${idx},'image_url',this.value); refreshThumb(${idx},this.value)"/>
+            <label>Categories (comma separated)</label>
+            <input value="${escAttr(cats)}" oninput="setCategories(${idx}, this.value)"/>
+            <label>Text / description ${isInfo ? '<span class="badge">(info block)</span>' : ''}</label>
+            <textarea rows="3" oninput="setText(${idx}, this.value)">${escHtml(it.text || '')}</textarea>
+          </div>
+          <div class="card-actions">
+            <span class="badge">#${idx + 1}</span>
+            <button class="btn danger" onclick="removeDish(${idx})">Delete</button>
+          </div>
+        `;
+        list.appendChild(card);
+      });
+    }
+
+    function escAttr(s) { return String(s == null ? '' : s).replace(/"/g, '&quot;'); }
+    function escHtml(s) { return String(s == null ? '' : s).replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+
+    function ensureMeta(idx) { if (!items[idx].metadata) items[idx].metadata = {}; return items[idx].metadata; }
+    function setMeta(idx, key, val) { ensureMeta(idx)[key] = val; }
+    function setText(idx, val) { items[idx].text = val; }
+    function setCategories(idx, val) {
+      ensureMeta(idx).categories = val.split(',').map(s => s.trim()).filter(Boolean);
+    }
+    function refreshThumb(idx, val) {
+      const card = document.querySelectorAll('.card')[idx];
+      if (card) card.querySelector('.thumb').src = val || 'https://placehold.co/120x90?text=No+Img';
+    }
+
+    function addDish() {
+      items.push({
+        text: 'Dish: New Dish. Description: ...',
+        metadata: { categories: ['menu'], dish_name: 'New Dish', price: 0, image_url: '' }
+      });
+      render();
+      window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function removeDish(idx) {
+      if (!confirm('Delete "' + metaVal(items[idx], 'dish_name', 'this item') + '"?')) return;
+      items.splice(idx, 1);
+      render();
+    }
+
+    function pickImage(idx) {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'image/*';
+      input.onchange = () => {
+        const file = input.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = async () => {
+          toast('Uploading image...');
+          try {
+            const r = await fetch(API + '/api/admin/upload', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'X-Admin-Token': TOKEN },
+              body: JSON.stringify({ data: reader.result })
+            });
+            if (!r.ok) throw new Error('upload failed');
+            const j = await r.json();
+            setMeta(idx, 'image_url', j.url);
+            render();
+            toast('Image uploaded ✓');
+          } catch (e) {
+            toast('Upload failed ✗');
+          }
+        };
+        reader.readAsDataURL(file);
+      };
+      input.click();
+    }
+
+    async function saveAll() {
+      const btn = document.getElementById('saveBtn');
+      btn.disabled = true; btn.textContent = 'Saving...';
+      try {
+        const r = await fetch(API + '/api/admin/menu', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'X-Admin-Token': TOKEN },
+          body: JSON.stringify(items)
+        });
+        if (!r.ok) throw new Error('save failed');
+        const j = await r.json();
+        toast('Saved ' + j.count + ' items ✓');
+      } catch (e) {
+        toast('Save failed ✗');
+      } finally {
+        btn.disabled = false; btn.textContent = '💾 Save all';
+      }
+    }
+
+    // Auto-login if token stored
+    if (TOKEN) {
+      document.getElementById('token').value = TOKEN;
+      loadMenu();
+    }
+  </script>
+</body>
+</html>

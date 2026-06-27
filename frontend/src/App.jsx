@@ -91,6 +91,11 @@ const App = () => {
             return;
         }
 
+        if (!phone.trim()) {
+            tg.showAlert("Please leave any contact (phone, Telegram, WhatsApp...).\n\nIf we can't reach you, your order will be canceled.");
+            return;
+        }
+
         setOrderStatus('sending');
 
         const orderData = {
@@ -159,11 +164,15 @@ const App = () => {
                 </div>
                 <input
                     type="text"
-                    placeholder="Any contact with you"
+                    placeholder="Any contact with you *"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    className="input-field"
+                    className={`input-field ${!phone.trim() ? 'input-required' : ''}`}
+                    required
                 />
+                <p className="contact-warning">
+                    ⚠️ Contact is required. If we can't reach you, your order will be canceled.
+                </p>
             </div>
 
             <div className="product-list">

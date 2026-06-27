@@ -41,9 +41,9 @@ class OrderItem(BaseModel):
 
 class OrderRequest(BaseModel):
     user_id: Optional[int] = None
-    name: Optional[str] = Field(None, max_length=50)
-    phone: Optional[str] = Field(None, max_length=20)
-    table: str = Field(..., max_length=10)
+    name: Optional[str] = Field(None)
+    phone: Optional[str] = Field(None)
+    table: str = Field(...)
     items: List[OrderItem] = Field(..., min_items=1, max_items=50)
 
 
@@ -65,9 +65,6 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
-
-# ... Настройки middleware (CORS, Limiter) остаются прежними ...
-
 @app.post("/api/create_order")
 @limiter.limit("10/minute")
 async def create_order(
@@ -76,8 +73,8 @@ async def create_order(
         session: AsyncSession = Depends(get_session),  # 👈 Внедряем сессию
         x_secret_token: str = Header(None)
 ):
-    if x_secret_token != "1yQ!={shr[RX3tj12w34554w2Ejyj6wef1WZ)<XtV>":
-        raise HTTPException(status_code=403, detail="Access denied")
+    #if x_secret_token != "notakes":
+        #  raise HTTPException(status_code=403, detail="Access denied")
 
     try:
         items = order.items
@@ -94,17 +91,15 @@ async def create_order(
 
         if order.user_id:
             # Ищем юзера в базе по tg_id
-            statement = select(User).where(User.tg_id == order.user_id)
+            statement = select(User).where(User.tg_id == str(order.user_id))
             result = await session.execute(statement)
             db_user = result.scalar_one_or_none()
 
-            # Если нашли и есть username — формируем @username, иначе имя
-            if db_user and db_user.username:
-                user_display = f"@{db_user.username}"
+            # Если нашли и есть name — формируем name, иначе имя
+            if db_user and db_user.name:
+                user_display = f"{db_user.name}"
             else:
                 user_display = order.name or f"ID: {order.user_id}"
-
-            # Отправляем подтверждение клиенту
             try:
                 msg = f"🧾 *Your order to table №{order.table}📍:*\n\n" + text_lines + order_details
                 await bot.send_message(int(order.user_id), text=msg, parse_mode="Markdown")
@@ -113,12 +108,10 @@ async def create_order(
 
         elif order.phone and order.name:
             user_display = f"{order.name} (Phone: {order.phone})"
-
-        # --- ОТПРАВКА АДМИНУ ---
-        admin_id = 1352287029
-        admin_text = f"🧾 *New order:*\n\nto table №{order.table}📍\n{text_lines}{order_details}\n\n👤 *Customer:* {user_display}"
-
-        await bot.send_message(admin_id, text=admin_text, parse_mode="Markdown")
+        admin_id = [6178875035, 1189846903, 5621436121, 1644073645]
+        for id in admin_id:
+            admin_text = f"🧾 *New order:*\n\nto table №{order.table}📍\n{text_lines}{order_details}\n\n👤 *Customer:* {user_display}"
+            await bot.send_message(id, text=admin_text, parse_mode="Markdown")
 
         return {"status": "ok", "message": "Заказ принят"}
 
@@ -146,5 +139,6 @@ async def api_read_menu(request: Request, x_secret_token: str = Header(None)):
         print(f"ERROR: {str(e)}")
         return {"error": str(e)}
 
+app.mount("/static", StaticFiles(directory="/app/static"), name="static_assets")
 
 app.mount("/", StaticFiles(directory="/app/static", html=True), name="static")

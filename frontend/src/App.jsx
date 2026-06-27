@@ -9,30 +9,41 @@ const App = () => {
     const [loading, setLoading] = useState(true);
     const [orderStatus, setOrderStatus] = useState(null);
 
-    // Состояния для ввода данных
+    // 1. Считываем стол из URL (?table=5) или оставляем пустым
+    const queryParams = new URLSearchParams(window.location.search);
+    const urlTable = queryParams.get('table'); 
+    
+    const [table, setTable] = useState(urlTable || '');
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
 
-    // 👇 Твой токен (Вставлен жестко, как ты просил)
-    const SECRET_TOKEN = "1yQ!={shr[RX3tj12w34554w2Ejyj6wef1WZ)<XtV>";
+    const SECRET_TOKEN = "notakes";
 
-    // 1. Загрузка меню
+    // 2. Загрузка меню и обработка вложенной структуры metadata
     useEffect(() => {
         tg.ready();
         tg.expand();
 
         const fetchProducts = async () => {
             try {
-                // Проверь адрес: /api или /api/products (зависит от твоего api.py)
-                // Обычно мы делали /api/products
-                const response = await fetch('https://pastamoalboal.shop/api/', {
+                const response = await fetch('https://pastamoalboal.shop/api', {
                     headers: { 'Content-Type': 'application/json' }
                 });
 
                 if (!response.ok) throw new Error('Failed to fetch menu');
 
-                const data = await response.json();
-                setProducts(data);
+                const rawData = await response.json();
+                
+                // Выпрямляем данные для удобной работы в React
+                const flatData = rawData.map((item, index) => ({
+                    id: String(index + 1),
+                    name: item.metadata?.dish_name || "Unknown Dish",
+                    price: Number(item.metadata?.price) || 0, // Защита от NaN
+                    description: item.text?.split('.')[0] || "", 
+                    image_url: item.metadata?.image_url || "" 
+                }));
+
+                setProducts(flatData);
             } catch (error) {
                 console.error("Error:", error);
                 tg.showAlert("Error loading menu");
@@ -43,13 +54,12 @@ const App = () => {
 
         fetchProducts();
 
-        // Автозаполнение имени из Телеграма
         if (tg.initDataUnsafe?.user?.first_name) {
             setName(tg.initDataUnsafe.user.first_name);
         }
     }, []);
 
-    // 2. Логика корзины (Добавление/Удаление)
+    // 3. Логика корзины
     const onAdd = (product) => {
         const exist = cart.find(x => x.id === product.id);
         if (exist) {
@@ -57,7 +67,6 @@ const App = () => {
         } else {
             setCart([...cart, { ...product, quantity: 1 }]);
         }
-        if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
     };
 
     const onRemove = (product) => {
@@ -73,32 +82,27 @@ const App = () => {
         return cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
     };
 
-    // 3. ОТПРАВКА ЗАКАЗА (ИСПРАВЛЕНО ПОД СКРИНШОТ МОДЕЛИ)
+    // 4. Отправка заказа (Исправлено: title, id-string, table-string)
     const onCheckout = useCallback(async () => {
         if (cart.length === 0) return;
 
-        // Валидация: если нет профиля ТГ и поля пустые
-        if (!tg.initDataUnsafe?.user && (!name || !phone)) {
-            tg.showAlert("Please enter your Name and Phone!");
+        if (!table) {
+            tg.showAlert("Please enter Table Number!");
             return;
         }
 
         setOrderStatus('sending');
 
-        // 👇 СОБИРАЕМ ДАННЫЕ СТРОГО ПО МОДЕЛИ ИЗ СКРИНШОТА
-        const data = {
-            // Модель OrderRequest
-            user_id: tg.initDataUnsafe?.user?.id || null, // Optional[int]
-            name: name,                                    // Optional[str]
-            phone: phone,                                  // Optional[str]
-            table: "1",                                    // str (Обязательное!)
-
-            // Модель OrderItem (в списке items)
+        const orderData = {
+            user_id: tg.initDataUnsafe?.user?.id || null,
+            name: name || "Guest",
+            phone: phone || "",
+            table: String(table), // Обязательно строка
             items: cart.map(item => ({
-                id: String(item.id), // Python ждет str
-                title: item.name,    // ВАЖНО: Python ждет 'title', а не 'name'!
-                price: item.price,   // float
-                quantity: item.quantity // int
+                id: String(item.id),
+                title: String(item.name), // Поле должно называться title
+                price: Number(item.price),
+                quantity: Math.min(Number(item.quantity), 20) // Лимит 20
             }))
         };
 
@@ -109,54 +113,64 @@ const App = () => {
                     'Content-Type': 'application/json',
                     'X-Secret-Token': SECRET_TOKEN
                 },
-                body: JSON.stringify(data),
+                body: JSON.stringify(orderData),
             });
+
 
             if (response.ok) {
                 setOrderStatus('success');
-                tg.MainButton.hide();
-                setTimeout(() => tg.close(), 2000);
+                setTimeout(() => tg.close(), 3000);
             } else {
-                const errorData = await response.json();
-                console.error("Server Error:", errorData);
-                throw new Error('Server returned error');
+                throw new Error('Server validation failed');
             }
         } catch (error) {
-            console.error("Fetch error:", error);
             setOrderStatus('error');
-            tg.showAlert("Connection Error. Try again.");
+            tg.showAlert("Connection Error. Please try again.");
         }
-    }, [cart, name, phone]);
-
-    // 4. Кнопка Telegram
-    useEffect(() => {
-        if (cart.length === 0) {
-            tg.MainButton.hide();
-        } else {
-            tg.MainButton.setParams({
-                text: `PAY $${getTotalPrice()}`,
-                color: '#2cab37'
-            });
-            tg.MainButton.show();
-        }
-        tg.MainButton.onClick(onCheckout);
-        return () => tg.MainButton.offClick(onCheckout);
-    }, [cart, onCheckout]);
+    }, [cart, name, phone, table]);
 
     // 5. Рендеринг
-    if (loading) return <div className="loading">Loading...</div>;
-    if (orderStatus === 'success') return <div className="success-screen"><h1>Order Sent! ✅</h1></div>;
+    if (loading) return <div className="loading">Loading Menu...</div>;
+    if (orderStatus === 'success') return <div className="success-screen"><h1>✅ Order Sent!</h1><p>ROOM №{table}</p></div>;
 
     return (
         <div className="App">
-            <h1 className="title">PastaBar AI 🍝</h1>
+            <h1 className="title">Pastabar AI 🍝</h1>
+
+            {/* Блок контактов и выбора стола */}
+            <div className="form-container top-form">
+                <div style={{display: 'flex', gap: '8px'}}>
+                    <input
+                        type="text"
+                        placeholder="Hotel"
+                        value={table}
+                        onChange={(e) => setTable(e.target.value)}
+                        className="input-field"
+                        style={{ width: '30%' }}
+                    />
+                    <input
+                        type="text"
+                        placeholder="Name"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        className="input-field"
+                        style={{ width: '70%' }}
+                    />
+                </div>
+                <input
+                    type="text"
+                    placeholder="Any contact with you"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    className="input-field"
+                />
+            </div>
 
             <div className="product-list">
-                {products.length === 0 ? <div className="empty">No items</div> : products.map(item => (
+                {products.map(item => (
                     <div className="product-item" key={item.id}>
                         <div className="image-container">
-                             {/* Исправлена обработка картинок */}
-                             <img
+                            <img
                                 src={item.image_url?.startsWith('http') ? item.image_url : `https://pastamoalboal.shop${item.image_url}`}
                                 alt={item.name}
                                 className="product-img"
@@ -165,9 +179,8 @@ const App = () => {
                         </div>
                         <div className="product-info">
                             <h3>{item.name}</h3>
-                            <p className="desc">{item.description}</p>
                             <div className="footer">
-                                <span className="price">${item.price}</span>
+                                <span className="price">{item.price} PHP</span>
                                 {cart.find(x => x.id === item.id) ? (
                                     <div className="counter">
                                         <button className="btn" onClick={() => onRemove(item)}>-</button>
@@ -183,29 +196,15 @@ const App = () => {
                 ))}
             </div>
 
-            {/* Форма ввода (показываем, если есть товары в корзине) */}
+            {/* 👇 Единая кастомная кнопка для всех платформ */}
             {cart.length > 0 && (
-                <div className="form-container" style={{ margin: '20px', padding: '15px', background: '#f5f5f5', borderRadius: '12px' }}>
-                    <h3 style={{marginTop: 0}}>Contacts</h3>
-                    <input
-                        type="text"
-                        placeholder="Your Name"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        className="input-field"
-                        style={{ width: '100%', padding: '10px', marginBottom: '10px', borderRadius: '8px', border: '1px solid #ccc', boxSizing: 'border-box' }}
-                    />
-                    <input
-                        type="tel"
-                        placeholder="Phone Number"
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
-                        className="input-field"
-                        style={{ width: '100%', padding: '10px', marginBottom: '5px', borderRadius: '8px', border: '1px solid #ccc', boxSizing: 'border-box' }}
-                    />
+                <div className="web-checkout-container">
+                    <button className="web-checkout-btn" onClick={onCheckout}>
+                        ORDER FOR ROOM {table || '?'} ({getTotalPrice()} PHP)
+                    </button>
                 </div>
             )}
-
+            
             <div style={{ height: '100px' }}></div>
         </div>
     );

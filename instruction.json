@@ -59,7 +59,7 @@
       "categories": ["menu", "pasta", "main_dish", "meat"],
       "dish_name": "Bolognese",
       "price": 290,
-      "image_url": "/static/images/dish_18.jpg"
+      "image_url": "/static/images/dish_10.jpg"
     }
   },
   {
@@ -449,7 +449,7 @@
     }
   },
   {
-    "text": "Dish: Manti. Traditional steamed dumplings filled with seasoned meat. Price: 350 PHP Pre-order only: @Roza120503/ Блюдо: Манты. Традиционные пельмени на пару с сочной мясной начинкой и специями. Цена: 350 PHP Только по предзаказу: @Roza120503",
+    "text": "Dish: Manti. Traditional steamed dumplings filled with seasoned meat. Price: 350 PHP Pre-order only: @Philsbrands/ Блюдо: Манты. Традиционные пельмени на пару с сочной мясной начинкой и специями. Цена: 350 PHP Только по предзаказу: @Philsbrands",
     "metadata": {
       "categories": ["menu", "main_dish", "meat"],
       "dish_name": "Manti",
@@ -759,7 +759,7 @@
     }
   },
   {
-    "text": "To reserve a table, please contact our administrator @Roza120503. To make a reservation, you will need a phone number, the time of the reservation, and the number of people at the table./ Для бронирования стола обратитеськ нашему администратору @Roza120503. Для резервации понадобится номер телефона, время бронирования и на какое количество людей столик",
+    "text": "To reserve a table, please contact our administrator @Philsbrands. To make a reservation, you will need a phone number, the time of the reservation, and the number of people at the table./ Для бронирования стола обратитеськ нашему администратору @Philsbrands. Для резервации понадобится номер телефона, время бронирования и на какое количество людей столик",
     "metadata": {
       "type": "faq",
       "categories": ["info", "reservation", "table", "бронирование", "столик"]
@@ -767,7 +767,7 @@
   },
 
   {
-    "text": "Contact us on:\n Telegram: @Roza120503 \n Facebook: Pasta Bar Nha Trang \n WhatsApp: +7(925)496-26-43 / Свяжитесь с нами:\n Telegram: @Roza120503 \n Facebook: Pasta Bar Nha Trang \n WatsApp: +7(925)496-26-43",
+    "text": "Contact us on:\n Telegram: @Philsbrands \n Facebook: Pasta Bar Nha Trang \n WhatsApp: +7(925)496-26-43 / Свяжитесь с нами:\n Telegram: @Roza120503 \n Facebook: Pasta Bar Nha Trang \n WatsApp: +7(925)496-26-43",
     "metadata": {
       "type": "faq",
       "categories": ["info", "manager", "contacts"]

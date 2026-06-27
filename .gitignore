@@ -1,0 +1,14 @@
+.env
+*.swp
+*.swo
+*.orig
+*_BACKUP_*
+*_BASE_*
+*_LOCAL_*
+*_REMOTE_*
+logs/
+model_weights/
+qdrant_storage/
+__pycache__/
+*.pyc
+.DS_Store

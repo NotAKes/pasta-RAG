@@ -51,7 +51,7 @@ async def cmd_start(message: types.Message, session: AsyncSession):
         user = User(
             name=message.from_user.full_name,
             tg_id=user_id_str,
-            username=message.from_user.username,
+            # username=message.from_user.username,
             platform="telegram",
             languages='ru'
         )
@@ -60,8 +60,8 @@ async def cmd_start(message: types.Message, session: AsyncSession):
         await session.refresh(user)
     kb = InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(
-            text="Открыть меню и заказать📱",
-            web_app=WebAppInfo(url="https://resplendently-connectional-maryanna.ngrok-free.dev/")
+            text="See menu and order📱",
+            web_app=WebAppInfo(url="https://pastamoalboal.shop/")
         )]
     ])
     await message.answer(
@@ -102,7 +102,7 @@ async def handle_web_app_data(message: types.Message):
 
 system_prompt = f"""Ты — опытный администратор ресторана "Pastabar" в Моалбоале. 
                 Твоя цель: давать безупречно точные ответы гостям и красиво оформить этот ответ для гостя.
-                Если гость выбрал блюдо, то предложи ему забронировать столик в заведении и написать менеджеру(@Roza120503). Обязательно предложи забронировать стол, если выбранное блюдо доступно не только по предзаказу
+                Если гость выбрал блюдо, то предложи ему забронировать столик в заведении и написать менеджеру(@Philsbrands). Обязательно предложи забронировать стол, если выбранное блюдо доступно не только по предзаказу
 
                 ### ТВОИ ЗНАНИЯ:
                 Помни, что 'Crepes' в нашем меню — это блины
@@ -165,8 +165,8 @@ async def answer(message: types.Message, session: AsyncSession):
     # ]
     kb = InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(
-            text="Открыть меню и заказать📱",
-            web_app=WebAppInfo(url="https://resplendently-connectional-maryanna.ngrok-free.dev/")
+            text="See menu and order📱",
+            web_app=WebAppInfo(url="https://pastamoalboal.shop/")
         )]
     ])
     await push_redis(message.from_user.id, message.text, "user")

@@ -11,13 +11,18 @@ services:
       - ./model_weights:/app/hf_cache
       - ./instruction.json:/app/instruction.json
       - ./logs:/app/logs
+    environment:
+      - PYTHONUNBUFFERED=1
     depends_on:
       redis:
         condition: service_healthy
       db:
         condition: service_healthy
+      qdrant:
+        condition: service_started
+
     env_file:
-      - .env
+        - .env
     # Порт 8000 теперь не пробрасываем наружу, его заберет Caddy
 
   db:
@@ -28,13 +33,13 @@ services:
         limits:
           memory: 500M
     environment:
-      - POSTGRES_USER=${DB_USER:-user}
-      - POSTGRES_PASSWORD=${DB_PASSWORD:-pass}
-      - POSTGRES_DB=${DB_NAME:-restodb}
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=notakes
+      - POSTGRES_DB=postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-user} -d ${DB_NAME:-restodb}"]
+      test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -54,18 +59,25 @@ services:
 
   caddy:
     image: caddy:2-alpine
-    restart: always
+    restart: unless-stopped
     ports:
       - "80:80"
       - "443:443"
     # Caddy сам подхватит твой домен и сделает HTTPS
-    command: caddy reverse-proxy --from pastamoalboal.shop --to bot:8000
+    # command: caddy reverse-proxy --from pastamoalboal.shop --to bot:8000
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile
       - caddy_data:/data
       - caddy_config:/config
     depends_on:
       - bot
+  qdrant:
+    image: qdrant/qdrant:latest
+    restart: always
+    ports:
+      - "6333:6333"
+    volumes:
+      - ./qdrant_storage:/qdrant/storage
 
 volumes:
   postgres_data:

@@ -5,6 +5,7 @@ on:
     branches: [ master, main ]
   pull_request:
     branches: [ master, main ]
+  workflow_dispatch: {}
 
 jobs:
   frontend:
@@ -52,3 +53,42 @@ jobs:
         run: touch .env
       - name: Validate compose file
         run: docker compose config -q
+
+  deploy:
+    name: Deploy to server
+    needs: [frontend, backend, docker]
+    runs-on: ubuntu-latest
+    # Only deploy real pushes to master / manual runs — never on PRs.
+    if: github.ref == 'refs/heads/master' && github.event_name != 'pull_request'
+    concurrency:
+      group: production-deploy
+      cancel-in-progress: false
+    steps:
+      - name: Deploy over SSH
+        uses: appleboy/ssh-action@v1.2.2
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT || 22 }}
+          script_stop: true
+          command_timeout: 30m
+          script: |
+            set -e
+            cd "${{ secrets.DEPLOY_PATH }}"
+
+            # instruction.json (the menu) and uploaded images are edited at
+            # runtime via the admin panel. Preserve the live menu so a deploy
+            # never overwrites admin changes with the git seed version.
+            cp instruction.json /tmp/pastabar_instruction.bak || true
+
+            git fetch origin master
+            git reset --hard origin/master
+
+            # Restore the live, admin-edited menu over the git version.
+            cp /tmp/pastabar_instruction.bak instruction.json || true
+
+            # Rebuild and restart. Uploaded images live in ./static/images
+            # (a mounted volume) and are untracked, so they are not touched.
+            docker compose up -d --build --remove-orphans
+            docker image prune -f

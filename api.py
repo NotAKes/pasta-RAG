@@ -179,10 +179,13 @@ async def admin_save_menu(request: Request, x_admin_token: str = Header(None)):
         if not isinstance(item, dict) or "metadata" not in item:
             raise HTTPException(status_code=400, detail="Each item needs a 'metadata' object")
 
-    tmp_path = INSTRUCTION_PATH + ".tmp"
-    with open(tmp_path, "w", encoding="utf-8") as f:
-        json.dump(data, f, ensure_ascii=False, indent=2)
-    os.replace(tmp_path, INSTRUCTION_PATH)
+    # instruction.json is bind-mounted as a single file, so os.replace() over it
+    # fails with EBUSY ("Device or resource busy"). Build the full payload first
+    # (so a serialization error can't leave a half-written file), then write the
+    # mounted file in place.
+    payload = json.dumps(data, ensure_ascii=False, indent=2)
+    with open(INSTRUCTION_PATH, "w", encoding="utf-8") as f:
+        f.write(payload)
     return {"status": "ok", "count": len(data)}
 
 

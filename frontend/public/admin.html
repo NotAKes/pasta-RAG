@@ -62,6 +62,7 @@
     .row { display: flex; gap: 10px; }
     .row > div { flex: 1; }
     .card-actions { grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: center; }
+    .move-btn { padding: 6px 12px; font-size: 15px; line-height: 1; font-weight: 700; }
     .badge { font-size: 11px; color: var(--muted); }
     .toast {
       position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
@@ -162,6 +163,7 @@
       const list = document.getElementById('list');
       list.innerHTML = '';
 
+      const dishCount = items.filter(it => !isInfoItem(it)).length;
       let shown = 0;
       items.forEach((it, idx) => {
         if (isInfoItem(it)) return; // skip technical info blocks
@@ -197,7 +199,11 @@
             <textarea rows="3" oninput="setText(${idx}, this.value)">${escHtml(it.text || '')}</textarea>
           </div>
           <div class="card-actions">
-            <span class="badge">#${shown}</span>
+            <div style="display:flex;align-items:center;gap:8px">
+              <span class="badge">#${shown}</span>
+              <button class="btn secondary move-btn" ${shown === 1 ? 'disabled' : ''} onclick="moveDish(${idx},-1)" title="Move up">↑</button>
+              <button class="btn secondary move-btn" ${shown === dishCount ? 'disabled' : ''} onclick="moveDish(${idx},1)" title="Move down">↓</button>
+            </div>
             <button class="btn danger" onclick="removeDish(${idx})">Delete</button>
           </div>
         `;
@@ -233,6 +239,17 @@
     function removeDish(idx) {
       if (!confirm('Delete "' + metaVal(items[idx], 'dish_name', 'this item') + '"?')) return;
       items.splice(idx, 1);
+      render();
+    }
+
+    // Move a dish up (dir=-1) or down (dir=+1) by swapping it with the nearest
+    // neighbouring dish, skipping hidden info blocks. This reorders how dishes
+    // appear in the menu.
+    function moveDish(idx, dir) {
+      let t = idx + dir;
+      while (t >= 0 && t < items.length && isInfoItem(items[t])) t += dir;
+      if (t < 0 || t >= items.length) return; // no dish neighbour in that direction
+      [items[idx], items[t]] = [items[t], items[idx]];
       render();
     }
 

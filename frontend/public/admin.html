@@ -63,6 +63,11 @@
     .row > div { flex: 1; }
     .card-actions { grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: center; }
     .move-btn { padding: 6px 12px; font-size: 15px; line-height: 1; font-weight: 700; }
+    .pos-input {
+      width: 56px; padding: 6px 4px; text-align: center;
+      font-weight: 700; font-size: 14px;
+    }
+    .pos-input::-webkit-inner-spin-button, .pos-input::-webkit-outer-spin-button { opacity: 1; }
     .badge { font-size: 11px; color: var(--muted); }
     .toast {
       position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
@@ -200,7 +205,12 @@
           </div>
           <div class="card-actions">
             <div style="display:flex;align-items:center;gap:8px">
-              <span class="badge">#${shown}</span>
+              <span class="badge">#</span>
+              <input class="pos-input" type="number" min="1" max="${dishCount}" value="${shown}"
+                onchange="moveDishTo(${idx}, Number(this.value))"
+                onkeydown="if(event.key==='Enter'){this.blur();}"
+                onfocus="this.select()"
+                title="Type a position and press Enter to move this dish there"/>
               <button class="btn secondary move-btn" ${shown === 1 ? 'disabled' : ''} onclick="moveDish(${idx},-1)" title="Move up">↑</button>
               <button class="btn secondary move-btn" ${shown === dishCount ? 'disabled' : ''} onclick="moveDish(${idx},1)" title="Move down">↓</button>
             </div>
@@ -250,6 +260,24 @@
       while (t >= 0 && t < items.length && isInfoItem(items[t])) t += dir;
       if (t < 0 || t >= items.length) return; // no dish neighbour in that direction
       [items[idx], items[t]] = [items[t], items[idx]];
+      render();
+    }
+
+    // Quick move: place the dish at absolute index `idx` at 1-based dish
+    // position `targetPos`. Everything at/after that position shifts one down.
+    // Hidden info blocks keep their absolute slots; only dishes are permuted.
+    function moveDishTo(idx, targetPos) {
+      const dishIdxs = items.map((_, i) => i).filter(i => !isInfoItem(items[i]));
+      const total = dishIdxs.length;
+      if (!Number.isFinite(targetPos)) return render(); // reset a bad input
+      targetPos = Math.max(1, Math.min(total, Math.round(targetPos)));
+      const curPos = dishIdxs.indexOf(idx) + 1;
+      if (!curPos || curPos === targetPos) return render();
+
+      const dishes = dishIdxs.map(i => items[i]);
+      const [moved] = dishes.splice(curPos - 1, 1);
+      dishes.splice(targetPos - 1, 0, moved);
+      dishIdxs.forEach((absIdx, k) => { items[absIdx] = dishes[k]; });
       render();
     }
 

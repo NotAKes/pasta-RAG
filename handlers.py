@@ -5,7 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 import os
 from sqlmodel import select
 from aiogram.types import ReplyKeyboardMarkup, KeyboardButton, WebAppInfo, InlineKeyboardMarkup, InlineKeyboardButton
-from bot import dp
+from bot import dp, bot, ADMIN_IDS
 from get_context import search
 from urllib.parse import quote
 from redis.asyncio import Redis
@@ -150,6 +150,27 @@ system_prompt = f"""Ты — опытный администратор рест�
                 Шаг 3: Сформулируй краткий и вежливый ответ.
                 """
 
+
+
+def _is_admin_accept(message: types.Message) -> bool:
+    return (
+        message.from_user is not None
+        and message.from_user.id in ADMIN_IDS
+        and bool(message.text)
+        and message.text.strip().lower() == "принял"
+    )
+
+
+@dp.message(_is_admin_accept)
+async def admin_order_accepted(message: types.Message):
+    """Когда любой админ пишет «принял» — уведомляем всех админов, что заказ принят."""
+    accepted_by = message.from_user.full_name or str(message.from_user.id)
+    notice = f"✅ Заказ принят администратором {accepted_by}."
+    for admin in ADMIN_IDS:
+        try:
+            await bot.send_message(admin, notice)
+        except Exception as e:
+            print(f"Не удалось уведомить админа {admin}: {e}")
 
 
 @dp.message(F.text)

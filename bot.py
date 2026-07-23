@@ -13,3 +13,6 @@ async_session_maker = async_sessionmaker(engine, class_=AsyncSession, expire_on_
 
 bot = Bot(token=os.getenv("tg_key"))
 dp = Dispatcher()
+
+# Telegram-ID администраторов, получающих заказы и подтверждения.
+ADMIN_IDS = [6178875035, 1189846903, 5621436121, 1644073645, 1423155014]

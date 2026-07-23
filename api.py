@@ -12,7 +12,7 @@ from sqlalchemy import text, select
 from sqlmodel import SQLModel
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from bot import dp, bot, engine, async_session_maker
+from bot import dp, bot, engine, async_session_maker, ADMIN_IDS
 from middleware import DbSessionMiddleware
 import logging
 from pydantic import BaseModel, Field
@@ -112,8 +112,7 @@ async def create_order(
 
         elif order.phone and order.name:
             user_display = f"{order.name} (Phone: {order.phone})"
-        admin_id = [6178875035, 1189846903, 5621436121, 1644073645]
-        for id in admin_id:
+        for id in ADMIN_IDS:
             admin_text = f"🧾 *New order:*\n\nto table №{order.table}📍\n{text_lines}{order_details}\n\n👤 *Customer:* {user_display}"
             await bot.send_message(id, text=admin_text, parse_mode="Markdown")
 

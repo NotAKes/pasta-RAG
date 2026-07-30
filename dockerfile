@@ -3,7 +3,7 @@ FROM node:20-alpine AS frontend-builder
 WORKDIR /app/frontend
 
 # 1. Обновляем npm до последней версии перед установкой пакетов
-RUN npm install -g npm@latest
+#RUN npm install -g npm@latest
 
 COPY frontend/package*.json ./
 

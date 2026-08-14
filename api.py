@@ -61,6 +61,13 @@ async def lifespan(app: FastAPI):
             print(f"⚠️ RLS Policy skip: {e}")
 
     dp.update.middleware(DbSessionMiddleware(session_pool=async_session_maker))
+
+    # Индексируем меню в Qdrant В ФОНЕ, чтобы не блокировать старт сервера.
+    # Кодирование меню на CPU долгое; сайт/админка/заказы работают сразу,
+    # а AI-поиск подтянет контекст, как только индексация завершится.
+    from get_context import startup_sync
+    asyncio.create_task(asyncio.to_thread(startup_sync))
+
     print("🤖 Запуск polling бота...")
     polling_task = asyncio.create_task(dp.start_polling(bot, handle_signals=False))
     yield

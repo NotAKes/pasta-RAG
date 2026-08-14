@@ -81,13 +81,15 @@ def _wait_for_qdrant(retries=30, delay=2):
     return False
 
 
-# Вызываем синхронизацию ПЕРЕД тем, как бот начнет принимать запросы.
-# ВАЖНО: не роняем весь сервис (API/бот/админку), если Qdrant временно недоступен.
-try:
-    if _wait_for_qdrant():
-        sync_menu_to_qdrant()
-except Exception as e:
-    print(f"⚠️ Синхронизация меню не удалась, продолжаем без неё: {e}")
+def startup_sync():
+    """Синхронизация меню с Qdrant. Вызывается В ФОНЕ из lifespan приложения,
+    чтобы НЕ блокировать старт uvicorn (кодирование меню на CPU долгое, а сайт
+    и приём заказов не должны его ждать)."""
+    try:
+        if _wait_for_qdrant():
+            sync_menu_to_qdrant()
+    except Exception as e:
+        print(f"⚠️ Синхронизация меню не удалась, продолжаем без неё: {e}")
 
 def search(raw_query):
     query = raw_query

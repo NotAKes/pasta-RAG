@@ -108,7 +108,9 @@ jobs:
         run: |
           # Keepalive so the long, output-silent image build (torch et al.)
           # doesn't get the SSH connection dropped ("Broken pipe" / exit 255).
+          # The retry covers a transient "port 80 already in use" when caddy is
+          # recreated before the old container fully releases the port.
           ssh -i ~/.ssh/deploy_key -p "$SSH_PORT" \
             -o ServerAliveInterval=30 -o ServerAliveCountMax=240 \
             "$SSH_USER@$SSH_HOST" \
-            "cd '$DEPLOY_PATH' && docker compose up -d --build --remove-orphans && docker image prune -f"
+            "cd '$DEPLOY_PATH' && (docker compose up -d --build --remove-orphans || (echo 'retrying after transient bind...'; sleep 8; docker compose up -d)) && docker image prune -f"

@@ -5,13 +5,15 @@ import torch
 import re
 import os
 import json
+import time
 from qdrant_client.models import VectorParams, Distance, PointStruct
 collection_name = "instruction_"
 torch.set_num_threads(1)
 
 client = QdrantClient(
     host="qdrant",
-    port=6333
+    port=6333,
+    timeout=10,
 )
 
 model = SentenceTransformer('ai-forever/ru-en-RoSBERTa', cache_folder='/app/hf_cache')
@@ -66,8 +68,26 @@ def sync_menu_to_qdrant():
     else:
         print(f"✔️ База Qdrant актуальна. Индексация не требуется.")
 
-# Вызываем синхронизацию ПЕРЕД тем, как бот начнет принимать запросы
-sync_menu_to_qdrant()
+def _wait_for_qdrant(retries=30, delay=2):
+    """Ждём, пока Qdrant поднимется и станет резолвиться в docker-сети."""
+    for attempt in range(1, retries + 1):
+        try:
+            client.get_collections()
+            return True
+        except Exception as e:
+            print(f"⏳ Qdrant ещё не готов ({attempt}/{retries}): {e}")
+            time.sleep(delay)
+    print("⚠️ Qdrant недоступен — пропускаем синхронизацию меню на старте.")
+    return False
+
+
+# Вызываем синхронизацию ПЕРЕД тем, как бот начнет принимать запросы.
+# ВАЖНО: не роняем весь сервис (API/бот/админку), если Qdrant временно недоступен.
+try:
+    if _wait_for_qdrant():
+        sync_menu_to_qdrant()
+except Exception as e:
+    print(f"⚠️ Синхронизация меню не удалась, продолжаем без неё: {e}")
 
 def search(raw_query):
     query = raw_query
@@ -76,11 +96,15 @@ def search(raw_query):
     for chunk in splitted_query:
         with torch.no_grad():
             query_embed = model.encode(chunk)
-        rr = client.search(
-            collection_name=collection_name,
-            query_vector=query_embed,
-            limit=6,
-        )
+        try:
+            rr = client.search(
+                collection_name=collection_name,
+                query_vector=query_embed,
+                limit=6,
+            )
+        except Exception as e:
+            print(f"⚠️ Qdrant search failed for chunk '{chunk}': {e}")
+            continue
 
         for hit in rr:
             if any(word in query.lower() for word in ["address", "location", "contact", "hours"]):

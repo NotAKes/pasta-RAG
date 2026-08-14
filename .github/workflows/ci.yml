@@ -63,31 +63,48 @@ jobs:
     concurrency:
       group: production-deploy
       cancel-in-progress: false
+    env:
+      SSH_HOST: ${{ secrets.SSH_HOST }}
+      SSH_USER: ${{ secrets.SSH_USER }}
+      SSH_PORT: ${{ secrets.SSH_PORT || 22 }}
+      DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
     steps:
-      - name: Deploy over SSH
-        uses: appleboy/ssh-action@v1.2.2
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_KEY }}
-          port: ${{ secrets.SSH_PORT || 22 }}
-          command_timeout: 30m
-          script: |
-            set -e
-            cd "${{ secrets.DEPLOY_PATH }}"
+      # The runner already has access to this (private) repo via the built-in
+      # token, so we ship the code from here to the server over SSH instead of
+      # having the server authenticate to GitHub itself.
+      - uses: actions/checkout@v4
 
-            # instruction.json (the menu) and uploaded images are edited at
-            # runtime via the admin panel. Preserve the live menu so a deploy
-            # never overwrites admin changes with the git seed version.
-            cp instruction.json /tmp/pastabar_instruction.bak || true
+      - name: Set up SSH
+        env:
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -p "$SSH_PORT" -H "$SSH_HOST" >> ~/.ssh/known_hosts 2>/dev/null
 
-            git fetch origin master
-            git reset --hard origin/master
+      - name: Sync code to server
+        run: |
+          # Runtime state on the server must survive a deploy:
+          #   .env             - secrets
+          #   instruction.json - live menu edited via the admin panel
+          #   static/images    - images uploaded via the admin panel
+          #   model_weights / qdrant_storage / logs - runtime data
+          # Excludes protect these from being overwritten (no --delete, so
+          # they are never removed either).
+          rsync -az \
+            -e "ssh -i ~/.ssh/deploy_key -p $SSH_PORT" \
+            --exclude '.git' \
+            --exclude '.env' \
+            --exclude 'instruction.json' \
+            --exclude 'static/images' \
+            --exclude 'model_weights' \
+            --exclude 'qdrant_storage' \
+            --exclude 'logs' \
+            --exclude 'frontend/node_modules' \
+            ./ "$SSH_USER@$SSH_HOST:$DEPLOY_PATH/"
 
-            # Restore the live, admin-edited menu over the git version.
-            cp /tmp/pastabar_instruction.bak instruction.json || true
-
-            # Rebuild and restart. Uploaded images live in ./static/images
-            # (a mounted volume) and are untracked, so they are not touched.
-            docker compose up -d --build --remove-orphans
-            docker image prune -f
+      - name: Rebuild and restart
+        run: |
+          ssh -i ~/.ssh/deploy_key -p "$SSH_PORT" "$SSH_USER@$SSH_HOST" \
+            "cd '$DEPLOY_PATH' && docker compose up -d --build --remove-orphans && docker image prune -f"

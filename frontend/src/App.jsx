@@ -4,7 +4,7 @@ import './App.css';
 const tg = window.Telegram.WebApp;
 
 const INSTAGRAM_URL = 'https://www.instagram.com/pasta_bar_moalboal/';
-const LOCATION_URL = 'https://maps.app.goo.gl/WRGzxwqrri4wjpkJ9';
+const LOCATION_URL = 'https://maps.app.goo.gl/tEWYkGMfmLa6KJmp8';
 
 // Inside Telegram a plain link is swallowed by the webview; openLink hands it to the browser/app.
 const openExternal = (url) => (e) => {

@@ -1,27 +1,35 @@
 :root {
-  /* Системные цвета Telegram для нативности */
-  --bg-color: var(--tg-theme-bg-color, #ffffff);
-  --text-color: var(--tg-theme-text-color, #222222);
-  --hint-color: var(--tg-theme-hint-color, #999999);
-  --button-color: var(--tg-theme-button-color, #2cab37);
-  --button-text: var(--tg-theme-button-text-color, #ffffff);
-  --secondary-bg: var(--tg-theme-secondary-bg-color, #f4f4f7);
+  --cream: #fbf5ea;
+  --card: #ffffff;
+  --field: #fffcf6;
+  --ink: #2a1f17;
+  --muted: #8a7b6c;
+  --line: #ecdfca;
+  --accent: #c8452b;
+  --accent-dark: #a9381f;
+  --gold: #d9a441;
+  --warn: #b8741a;
+  --shadow: 0 1px 2px rgba(74, 48, 20, 0.06), 0 6px 18px rgba(74, 48, 20, 0.07);
+  --serif: 'Fraunces', Georgia, 'Times New Roman', serif;
+  --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 
 body {
-  background-color: var(--bg-color);
-  color: var(--text-color);
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--sans);
+  line-height: 1.4;
   -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .App {
-  padding: 15px;
   max-width: 600px;
   margin: 0 auto;
+  padding: 16px 16px calc(110px + env(safe-area-inset-bottom));
 }
 
+/* --- Header --- */
 .hero {
   text-align: center;
   margin-bottom: 18px;
@@ -32,7 +40,7 @@ body {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  margin: 4px 0 12px;
+  margin-bottom: 16px;
 }
 
 .hero-side {
@@ -52,21 +60,28 @@ body {
 .hero-links a {
   flex: 1;
   padding: 7px 4px;
-  border-radius: 6px;
-  background: var(--secondary-bg);
-  border: 1px solid rgba(0,0,0,0.08);
-  color: var(--text-color);
+  border-radius: 999px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  color: var(--ink);
   font-size: 13px;
   font-weight: 600;
   text-decoration: none;
   text-align: center;
   white-space: nowrap;
+  box-shadow: 0 1px 2px rgba(74, 48, 20, 0.05);
+}
+
+.hero-links a:active {
+  background: var(--field);
 }
 
 .we-accept {
   display: block;
   width: 100%;
   height: auto;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
 }
 
 .logo {
@@ -74,66 +89,103 @@ body {
   display: block;
   width: 112px;
   height: 112px;
+  border-radius: 50%;
+  box-shadow: 0 6px 18px rgba(74, 48, 20, 0.18);
 }
 
 .title {
-  text-align: center;
-  font-size: 22px;
-  line-height: 1.2;
   margin: 0 0 6px;
-  font-weight: 800;
-  letter-spacing: 0.3px;
+  font-family: var(--serif);
+  font-size: 25px;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: 0.2px;
+  color: var(--ink);
+}
+
+.title::after {
+  content: '';
+  display: block;
+  width: 44px;
+  height: 3px;
+  margin: 10px auto 0;
+  border-radius: 3px;
+  background: var(--gold);
 }
 
 .subtitle {
-  margin: 0 auto;
+  margin: 10px auto 0;
   max-width: 420px;
   font-size: 13px;
-  line-height: 1.4;
-  color: var(--hint-color);
+  line-height: 1.45;
+  color: var(--muted);
 }
 
-.banner-video {
-  display: block;
-  width: 100%;
-  border-radius: 8px;
-  margin-bottom: 20px;
-  background: #000;
+/* --- Sections --- */
+.section-title {
+  margin: 0 0 10px;
+  font-family: var(--serif);
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--ink);
 }
 
-/* --- Форма контактов (теперь сверху) --- */
 .form-container {
-  padding: 15px;
-  background: var(--secondary-bg);
-  border-radius: 8px; /* Лаконичный радиус */
+  padding: 14px;
   margin-bottom: 20px;
-  border: 1px solid rgba(0,0,0,0.05);
+  background: var(--card);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+}
+
+.form-row {
+  display: flex;
+  gap: 8px;
 }
 
 .input-field {
   width: 100%;
-  padding: 12px;
-  margin: 6px 0;
-  border-radius: 6px; /* Строгий стиль */
-  border: 1px solid rgba(0,0,0,0.1);
-  background: var(--bg-color);
-  color: var(--text-color);
-  box-sizing: border-box;
-  font-size: 14px;
+  padding: 12px 13px;
+  margin: 5px 0;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: var(--field);
+  color: var(--ink);
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.input-field::placeholder {
+  color: #b3a594;
+}
+
+.input-field:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(217, 164, 65, 0.2);
 }
 
 .input-required {
-  border-color: #e0a200 !important;
+  border-color: #e3b35c;
 }
 
 .contact-warning {
   margin: 6px 2px 0;
   font-size: 12px;
-  line-height: 1.35;
-  color: #c47f00;
+  line-height: 1.4;
+  color: var(--warn);
 }
 
-/* --- Список товаров --- */
+.banner-video {
+  display: block;
+  width: 100%;
+  margin-bottom: 20px;
+  border-radius: 16px;
+  background: #000;
+  box-shadow: var(--shadow);
+}
+
+/* --- Menu --- */
 .product-list {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -141,126 +193,233 @@ body {
 }
 
 .product-item {
-  background: var(--secondary-bg);
-  border-radius: 8px; /* Лаконичный радиус */
-  overflow: hidden;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+  overflow: hidden;
+  background: var(--card);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
 }
 
 .image-container {
   width: 100%;
   aspect-ratio: 4 / 3;
-  background: #eee;
   overflow: hidden;
+  background: linear-gradient(110deg, #f3eadb 30%, #faf3e7 50%, #f3eadb 70%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s linear infinite;
+}
+
+.image-container.loaded {
+  animation: none;
+  background: var(--card);
+}
+
+@keyframes shimmer {
+  to { background-position: -200% 0; }
 }
 
 .product-img {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
 .product-info {
-  padding: 10px;
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+  padding: 10px 11px 11px;
 }
 
 .product-info h3 {
-  margin: 0 0 5px 0;
+  margin: 0 0 10px;
   font-size: 15px;
-  line-height: 1.2;
-}
-
-.desc {
-  font-size: 11px;
-  color: var(--hint-color);
-  margin-bottom: 10px;
-  flex-grow: 1;
+  font-weight: 650;
+  line-height: 1.25;
 }
 
 .footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 6px;
   margin-top: auto;
 }
 
 .price {
+  font-size: 15px;
   font-weight: 700;
-  font-size: 14px;
+  color: var(--accent);
+  white-space: nowrap;
 }
 
-/* --- Кнопки (Лаконичный дизайн) --- */
-
-/* Кнопка "ADD" */
 .add-btn {
-  background: var(--button-color);
-  color: var(--button-text);
+  padding: 7px 14px;
   border: none;
-  padding: 6px 12px;
-  border-radius: 6px; /* Квадратнее */
-  font-weight: 600;
-  cursor: pointer;
+  border-radius: 999px;
+  background: var(--accent);
+  color: #fff;
   font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+  transition: transform 0.1s, background 0.15s;
 }
 
-/* Кнопки +/- в счетчике */
+.add-btn:active {
+  transform: scale(0.95);
+  background: var(--accent-dark);
+}
+
 .counter {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 2px;
+  padding: 2px;
+  border-radius: 999px;
+  background: #fbe9e3;
+}
+
+.counter span {
+  min-width: 18px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--accent-dark);
 }
 
 .btn {
-  background: var(--bg-color); /* Контраст на фоне карточки */
-  color: var(--text-color);
-  border: 1px solid var(--hint-color); /* Тонкая рамка */
-  width: 26px;
-  height: 26px;
-  border-radius: 6px; /* Квадратнее */
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 16px;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: var(--card);
+  color: var(--accent);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1;
   cursor: pointer;
-  padding-bottom: 2px;
+  box-shadow: 0 1px 2px rgba(74, 48, 20, 0.12);
 }
 
-/* --- Кнопка для обычного сайта --- */
+.btn:active {
+  transform: scale(0.92);
+}
+
+/* --- Checkout --- */
 .web-checkout-container {
   position: fixed;
-  bottom: 20px;
   left: 0;
   right: 0;
-  padding: 0 20px;
+  bottom: 0;
   z-index: 1000;
+  padding: 12px 16px calc(14px + env(safe-area-inset-bottom));
+  background: linear-gradient(to top, var(--cream) 60%, rgba(251, 245, 234, 0));
 }
 
 .web-checkout-btn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
   width: 100%;
-  background: #2cab37;
-  color: white;
+  max-width: 568px;
+  margin: 0 auto;
+  padding: 15px 18px;
   border: none;
-  padding: 14px;
-  border-radius: 8px; /* Строгий стиль */
+  border-radius: 16px;
+  background: var(--accent);
+  color: #fff;
   font-size: 16px;
   font-weight: 700;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 8px 20px rgba(200, 69, 43, 0.35);
 }
 
-/* Состояния */
-.loading {
-  text-align: center;
-  padding-top: 50px;
-  color: var(--hint-color);
+.web-checkout-btn:active {
+  background: var(--accent-dark);
 }
 
+.web-checkout-btn:disabled {
+  opacity: 0.7;
+}
+
+.checkout-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.checkout-count {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 24px;
+  height: 24px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.22);
+  font-size: 13px;
+}
+
+/* --- States --- */
+.loading,
 .success-screen {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  padding: 24px;
   text-align: center;
-  padding-top: 100px;
+}
+
+.loading {
+  color: var(--muted);
+  font-size: 15px;
+}
+
+.loading .logo {
+  width: 96px;
+  height: 96px;
+  animation: pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  50% { transform: scale(0.94); opacity: 0.75; }
+}
+
+.success-screen .logo {
+  width: 96px;
+  height: 96px;
+}
+
+.success-screen h1 {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 28px;
+}
+
+.success-screen p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 15px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .image-container,
+  .loading .logo {
+    animation: none;
+  }
 }

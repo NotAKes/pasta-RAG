@@ -80,6 +80,10 @@ const App = () => {
     useEffect(() => {
         tg.ready();
         tg.expand();
+        try {
+            tg.setHeaderColor('#fbf5ea');
+            tg.setBackgroundColor('#fbf5ea');
+        } catch { /* older Telegram clients */ }
 
         const fetchProducts = async () => {
             try {
@@ -197,8 +201,21 @@ const App = () => {
     }, [cart, name, phone, table]);
 
     // 5. Рендеринг
-    if (loading) return <div className="loading">Loading Menu...</div>;
-    if (orderStatus === 'success') return <div className="success-screen"><h1>✅ Order Sent!</h1><p>ROOM №{table}</p></div>;
+    if (loading) return (
+        <div className="loading">
+            <img src="/logo.png" alt="" className="logo" />
+            Loading menu…
+        </div>
+    );
+    if (orderStatus === 'success') return (
+        <div className="success-screen">
+            <img src="/logo.png" alt="" className="logo" />
+            <h1>Order sent!</h1>
+            <p>Delivery to {table}. We'll contact you shortly.</p>
+        </div>
+    );
+
+    const itemCount = cart.reduce((acc, item) => acc + item.quantity, 0);
 
     return (
         <div className="App">
@@ -225,7 +242,8 @@ const App = () => {
 
             {/* Блок контактов и выбора стола */}
             <div className="form-container top-form">
-                <div style={{display: 'flex', gap: '8px'}}>
+                <h2 className="section-title">Your details</h2>
+                <div className="form-row">
                     <input
                         type="text"
                         placeholder="Hotel"
@@ -263,6 +281,7 @@ const App = () => {
                 />
             )}
 
+            <h2 className="section-title">Menu</h2>
             <div className="product-list">
                 {products.map(item => (
                     <div className="product-item" key={item.id}>
@@ -271,16 +290,18 @@ const App = () => {
                                 src={item.image_url?.startsWith('http') ? item.image_url : `https://pastamoalboal.shop${item.image_url}`}
                                 alt={item.name}
                                 className="product-img"
+                                loading="lazy"
+                                onLoad={(e) => e.target.parentElement.classList.add('loaded')}
                                 onError={(e) => {e.target.src = 'https://placehold.co/400x300?text=No+Image'}}
                             />
                         </div>
                         <div className="product-info">
                             <h3>{item.name}</h3>
                             <div className="footer">
-                                <span className="price">{item.price} PHP</span>
+                                <span className="price">₱{item.price}</span>
                                 {cart.find(x => x.id === item.id) ? (
                                     <div className="counter">
-                                        <button className="btn" onClick={() => onRemove(item)}>-</button>
+                                        <button className="btn" onClick={() => onRemove(item)}>−</button>
                                         <span>{cart.find(x => x.id === item.id).quantity}</span>
                                         <button className="btn" onClick={() => onAdd(item)}>+</button>
                                     </div>
@@ -296,8 +317,12 @@ const App = () => {
             {/* 👇 Единая кастомная кнопка для всех платформ */}
             {cart.length > 0 && (
                 <div className="web-checkout-container">
-                    <button className="web-checkout-btn" onClick={onCheckout}>
-                        ORDER FOR ROOM {table || '?'} ({getTotalPrice()} PHP)
+                    <button className="web-checkout-btn" onClick={onCheckout} disabled={orderStatus === 'sending'}>
+                        <span className="checkout-label">
+                            <span className="checkout-count">{itemCount}</span>
+                            {orderStatus === 'sending' ? 'Sending…' : 'Place order'}
+                        </span>
+                        <span>₱{getTotalPrice().toLocaleString('en-US')}</span>
                     </button>
                 </div>
             )}

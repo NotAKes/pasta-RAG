@@ -46,9 +46,14 @@ body {
 .subtitle {
   margin: 0 auto;
   max-width: 420px;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.4;
-  color: var(--hint-color);
+  font-weight: 800;
+  color: #e53935;
+  text-shadow:
+    -1px -1px 0 #000, 0 -1px 0 #000, 1px -1px 0 #000,
+    -1px 0 0 #000, 1px 0 0 #000,
+    -1px 1px 0 #000, 0 1px 0 #000, 1px 1px 0 #000;
 }
 
 .banner-video {

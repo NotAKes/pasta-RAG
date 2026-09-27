@@ -8,6 +8,7 @@ const App = () => {
     const [cart, setCart] = useState([]);
     const [loading, setLoading] = useState(true);
     const [orderStatus, setOrderStatus] = useState(null);
+    const [bannerUrl, setBannerUrl] = useState(null);
 
     // 1. Считываем стол из URL (?table=5) или оставляем пустым
     const queryParams = new URLSearchParams(window.location.search);
@@ -53,6 +54,11 @@ const App = () => {
         };
 
         fetchProducts();
+
+        fetch('https://pastamoalboal.shop/api/banner')
+            .then(r => r.ok ? r.json() : null)
+            .then(d => setBannerUrl(d?.video_url || null))
+            .catch(() => {});
 
         if (tg.initDataUnsafe?.user?.first_name) {
             setName(tg.initDataUnsafe.user.first_name);
@@ -140,7 +146,13 @@ const App = () => {
 
     return (
         <div className="App">
-            <h1 className="title">Pastabar AI 🍝</h1>
+            <header className="hero">
+                <img src="/logo.png" alt="Pasta Bar" className="logo" />
+                <h1 className="title">FREE DELIVERY FOR MOALBOAL</h1>
+                <p className="subtitle">
+                    Free transportation "Hotel - Restaurant - Hotel" when ordering from 5,000 PHP.
+                </p>
+            </header>
 
             {/* Блок контактов и выбора стола */}
             <div className="form-container top-form">
@@ -174,6 +186,19 @@ const App = () => {
                     ⚠️ Contact is required. If we can't reach you, your order will be canceled.
                 </p>
             </div>
+
+            {bannerUrl && (
+                <video
+                    className="banner-video"
+                    src={bannerUrl.startsWith('http') ? bannerUrl : `https://pastamoalboal.shop${bannerUrl}`}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    preload="auto"
+                    onError={() => setBannerUrl(null)}
+                />
+            )}
 
             <div className="product-list">
                 {products.map(item => (

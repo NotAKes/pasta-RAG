@@ -229,6 +229,78 @@ async def admin_upload(request: Request, x_admin_token: str = Header(None)):
     return {"url": f"/static/images/{filename}"}
 
 
+# Лежит в static/images: эта папка смонтирована как volume и не перезаписывается деплоем.
+BANNER_SETTINGS_PATH = os.path.join(IMAGES_DIR, "banner.json")
+BANNER_MAX_BYTES = 100 * 1024 * 1024
+BANNER_VIDEO_TYPES = {"video/mp4": "mp4", "video/webm": "webm", "video/quicktime": "mov"}
+
+
+def _read_banner() -> Optional[str]:
+    try:
+        with open(BANNER_SETTINGS_PATH, "r", encoding="utf-8") as f:
+            return json.load(f).get("video_url")
+    except (FileNotFoundError, json.JSONDecodeError):
+        return None
+
+
+def _remove_banner_file(url: Optional[str]):
+    if url and url.startswith("/static/images/banner_"):
+        try:
+            os.remove(os.path.join(IMAGES_DIR, os.path.basename(url)))
+        except FileNotFoundError:
+            pass
+
+
+@app.get("/api/banner")
+async def get_banner():
+    return {"video_url": _read_banner()}
+
+
+@app.post("/api/admin/banner")
+async def admin_upload_banner(request: Request, x_admin_token: str = Header(None)):
+    """Принимает видео сырым телом запроса (Content-Type: video/*), не base64."""
+    _check_admin(x_admin_token)
+    content_type = (request.headers.get("content-type") or "").split(";")[0].strip().lower()
+    ext = BANNER_VIDEO_TYPES.get(content_type)
+    if not ext:
+        raise HTTPException(status_code=400, detail="Only MP4, WebM or MOV video is allowed")
+
+    os.makedirs(IMAGES_DIR, exist_ok=True)
+    filename = f"banner_{int(time.time() * 1000)}.{ext}"
+    path = os.path.join(IMAGES_DIR, filename)
+    size = 0
+    try:
+        with open(path, "wb") as f:
+            async for chunk in request.stream():
+                size += len(chunk)
+                if size > BANNER_MAX_BYTES:
+                    raise HTTPException(status_code=400, detail="Video too large (max 100MB)")
+                f.write(chunk)
+    except BaseException:
+        os.remove(path)
+        raise
+    if size == 0:
+        os.remove(path)
+        raise HTTPException(status_code=400, detail="Empty file")
+
+    old = _read_banner()
+    url = f"/static/images/{filename}"
+    with open(BANNER_SETTINGS_PATH, "w", encoding="utf-8") as f:
+        json.dump({"video_url": url}, f)
+    _remove_banner_file(old)
+    return {"video_url": url}
+
+
+@app.delete("/api/admin/banner")
+async def admin_delete_banner(x_admin_token: str = Header(None)):
+    _check_admin(x_admin_token)
+    old = _read_banner()
+    with open(BANNER_SETTINGS_PATH, "w", encoding="utf-8") as f:
+        json.dump({"video_url": None}, f)
+    _remove_banner_file(old)
+    return {"video_url": None}
+
+
 app.mount("/static", StaticFiles(directory="/app/static"), name="static_assets")
 
 app.mount("/", StaticFiles(directory="/app/static", html=True), name="static")

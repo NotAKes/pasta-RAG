@@ -75,6 +75,11 @@
       font-size: 14px; opacity: 0; transition: opacity .25s; pointer-events: none; z-index: 100;
     }
     .toast.show { opacity: 1; }
+    .banner-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 16px; margin-bottom: 16px;
+    }
+    .banner-preview { width: 100%; max-height: 320px; border-radius: 10px; background: #000; display: block; }
     .hidden { display: none; }
     .small { font-size: 12px; color: var(--muted); }
     @media (max-width: 560px) {
@@ -104,7 +109,19 @@
       <button class="btn" id="saveBtn" onclick="saveAll()">💾 Save all</button>
       <button class="btn secondary" onclick="logout()">Logout</button>
     </header>
-    <div class="wrap" id="list"></div>
+    <div class="wrap">
+      <div class="banner-card">
+        <h3 style="margin:0 0 4px">🎬 Banner video</h3>
+        <p class="small" style="margin:0 0 10px">Shown between the contact form and the menu. MP4 (H.264) plays everywhere; max 100MB. Plays muted and looped. Saved immediately — no need to press "Save all".</p>
+        <video id="bannerPreview" class="banner-preview hidden" muted loop playsinline controls></video>
+        <p id="bannerEmpty" class="small">No banner video — the section is hidden on the site.</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+          <button class="btn" id="bannerUploadBtn" onclick="pickBanner()">Upload video</button>
+          <button class="btn danger hidden" id="bannerDeleteBtn" onclick="deleteBanner()">Remove video</button>
+        </div>
+      </div>
+      <div id="list"></div>
+    </div>
   </div>
 
   <div id="toast" class="toast"></div>
@@ -147,6 +164,7 @@
         document.getElementById('login').classList.add('hidden');
         document.getElementById('panel').classList.remove('hidden');
         render();
+        loadBanner();
         return true;
       } catch (e) {
         return false;
@@ -309,6 +327,64 @@
         reader.readAsDataURL(file);
       };
       input.click();
+    }
+
+    function showBanner(url) {
+      const v = document.getElementById('bannerPreview');
+      document.getElementById('bannerEmpty').classList.toggle('hidden', !!url);
+      document.getElementById('bannerDeleteBtn').classList.toggle('hidden', !url);
+      v.classList.toggle('hidden', !url);
+      if (url) { v.src = url; } else { v.removeAttribute('src'); v.load(); }
+    }
+
+    async function loadBanner() {
+      try {
+        const r = await fetch(API + '/api/banner');
+        showBanner(r.ok ? (await r.json()).video_url : null);
+      } catch (e) { showBanner(null); }
+    }
+
+    function pickBanner() {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'video/mp4,video/webm,video/quicktime';
+      input.onchange = () => {
+        const file = input.files[0];
+        if (!file) return;
+        if (file.size > 100 * 1024 * 1024) { toast('Video too large (max 100MB) ✗', 3500); return; }
+        const btn = document.getElementById('bannerUploadBtn');
+        btn.disabled = true;
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', API + '/api/admin/banner');
+        xhr.setRequestHeader('X-Admin-Token', TOKEN);
+        xhr.setRequestHeader('Content-Type', file.type || 'video/mp4');
+        xhr.upload.onprogress = (e) => {
+          if (e.lengthComputable) btn.textContent = 'Uploading ' + Math.round(e.loaded / e.total * 100) + '%';
+        };
+        xhr.onloadend = () => {
+          btn.disabled = false; btn.textContent = 'Upload video';
+          if (xhr.status === 200) {
+            showBanner(JSON.parse(xhr.responseText).video_url);
+            toast('Banner video uploaded ✓');
+          } else {
+            let msg = 'Upload failed ✗';
+            try { msg = JSON.parse(xhr.responseText).detail + ' ✗'; } catch (e) {}
+            toast(msg, 3500);
+          }
+        };
+        xhr.send(file);
+      };
+      input.click();
+    }
+
+    async function deleteBanner() {
+      if (!confirm('Remove the banner video from the site?')) return;
+      try {
+        const r = await fetch(API + '/api/admin/banner', { method: 'DELETE', headers: { 'X-Admin-Token': TOKEN } });
+        if (!r.ok) throw new Error();
+        showBanner(null);
+        toast('Banner removed ✓');
+      } catch (e) { toast('Remove failed ✗'); }
     }
 
     async function saveAll() {

@@ -22,11 +22,41 @@ body {
   margin: 0 auto;
 }
 
+.hero {
+  text-align: center;
+  margin-bottom: 18px;
+}
+
+.logo {
+  display: block;
+  width: 112px;
+  height: 112px;
+  margin: 4px auto 10px;
+}
+
 .title {
   text-align: center;
-  font-size: 24px;
-  margin-bottom: 20px;
+  font-size: 22px;
+  line-height: 1.2;
+  margin: 0 0 6px;
   font-weight: 800;
+  letter-spacing: 0.3px;
+}
+
+.subtitle {
+  margin: 0 auto;
+  max-width: 420px;
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--hint-color);
+}
+
+.banner-video {
+  display: block;
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  background: #000;
 }
 
 /* --- Форма контактов (теперь сверху) --- */

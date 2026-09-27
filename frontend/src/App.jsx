@@ -3,6 +3,17 @@ import './App.css';
 
 const tg = window.Telegram.WebApp;
 
+const INSTAGRAM_URL = 'https://www.instagram.com/pasta_bar_moalboal/';
+const LOCATION_URL = 'https://maps.app.goo.gl/WRGzxwqrri4wjpkJ9';
+
+// Inside Telegram a plain link is swallowed by the webview; openLink hands it to the browser/app.
+const openExternal = (url) => (e) => {
+    if (tg?.initData) {
+        e.preventDefault();
+        tg.openLink(url);
+    }
+};
+
 // React doesn't reliably render the `muted` attribute, and iOS / Telegram
 // webviews refuse to autoplay unless the video is muted, so it's set by hand.
 const BannerVideo = ({ src, onError }) => {
@@ -192,7 +203,20 @@ const App = () => {
     return (
         <div className="App">
             <header className="hero">
-                <img src="/logo.png" alt="Pasta Bar" className="logo" />
+                <div className="hero-top">
+                    <div className="hero-side">
+                        <div className="hero-links">
+                            <a href={INSTAGRAM_URL} onClick={openExternal(INSTAGRAM_URL)} target="_blank" rel="noopener noreferrer">
+                                📷 Instagram
+                            </a>
+                            <a href={LOCATION_URL} onClick={openExternal(LOCATION_URL)} target="_blank" rel="noopener noreferrer">
+                                📍 Location
+                            </a>
+                        </div>
+                        <img src="/we-accept.png" alt="We accept Visa, Mastercard, GCash, Sberbank, Bybit crypto" className="we-accept" />
+                    </div>
+                    <img src="/logo.png" alt="Pasta Bar" className="logo" />
+                </div>
                 <h1 className="title">FREE DELIVERY FOR MOALBOAL</h1>
                 <p className="subtitle">
                     Free transportation "Hotel - Restaurant - Hotel" when ordering from 5,000 PHP.

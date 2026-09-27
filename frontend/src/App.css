@@ -27,11 +27,53 @@ body {
   margin-bottom: 18px;
 }
 
+.hero-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 4px 0 12px;
+}
+
+.hero-side {
+  flex: 1;
+  min-width: 0;
+  max-width: 260px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.hero-links {
+  display: flex;
+  gap: 6px;
+}
+
+.hero-links a {
+  flex: 1;
+  padding: 7px 4px;
+  border-radius: 6px;
+  background: var(--secondary-bg);
+  border: 1px solid rgba(0,0,0,0.08);
+  color: var(--text-color);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.we-accept {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 .logo {
+  flex-shrink: 0;
   display: block;
   width: 112px;
   height: 112px;
-  margin: 4px auto 10px;
 }
 
 .title {
@@ -48,12 +90,7 @@ body {
   max-width: 420px;
   font-size: 13px;
   line-height: 1.4;
-  font-weight: 800;
-  color: #e53935;
-  text-shadow:
-    -1px -1px 0 #000, 0 -1px 0 #000, 1px -1px 0 #000,
-    -1px 0 0 #000, 1px 0 0 #000,
-    -1px 1px 0 #000, 0 1px 0 #000, 1px 1px 0 #000;
+  color: var(--hint-color);
 }
 
 .banner-video {

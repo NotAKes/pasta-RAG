@@ -1,86 +1,88 @@
 services:
   bot:
     build: .
-    restart: always
-    deploy:
-      resources:
-        limits:
-          cpus: '1.5'
-          memory: 2.8G # Основная часть памяти под ML-модель
-    volumes:
-      - ./model_weights:/app/hf_cache
-      - ./instruction.json:/app/instruction.json
-      - ./static/images:/app/static/images
-      - ./logs:/app/logs
+    restart: unless-stopped
+    init: true
     environment:
-      - PYTHONUNBUFFERED=1
+      DATA_DIR: /app/data
+      MENU_PATH: /app/instruction.json
+      STATIC_DIR: /app/frontend/dist
+      MODEL_CACHE_DIR: /app/hf_cache
+      DATABASE_URL: postgresql+asyncpg://postgres:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}@db:5432/postgres
+      REDIS_URL: redis://redis:6379/0
+      QDRANT_URL: http://qdrant:6333
+      QDRANT_API_KEY: ${QDRANT_API_KEY:-}
+    env_file: .env
+    volumes:
+      - ./data:/app/data
+      - ./model_weights:/app/hf_cache
+    ports:
+      - "127.0.0.1:8000:8000"
     depends_on:
-      redis:
-        condition: service_healthy
       db:
+        condition: service_healthy
+      redis:
         condition: service_healthy
       qdrant:
         condition: service_started
-
-    env_file:
-        - .env
-    # Порт 8000 теперь не пробрасываем наружу, его заберет Caddy
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 5s
+      start_period: 30s
+      retries: 3
 
   db:
     image: postgres:15-alpine
-    restart: always
-    deploy:
-      resources:
-        limits:
-          memory: 500M
+    restart: unless-stopped
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=notakes
-      - POSTGRES_DB=postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: postgres
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
       interval: 5s
       timeout: 5s
-      retries: 5
+      retries: 10
 
   redis:
     image: redis:7-alpine
-    restart: always
-    deploy:
-      resources:
-        limits:
-          memory: 200M
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis_data:/data
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 5s
       timeout: 5s
-      retries: 5
+      retries: 10
+
+  qdrant:
+    image: qdrant/qdrant:v1.16.3
+    restart: unless-stopped
+    environment:
+      QDRANT__SERVICE__API_KEY: ${QDRANT_API_KEY:-}
+    volumes:
+      - ./qdrant_storage:/qdrant/storage
+    # Private Compose network only; do not publish the vector database.
 
   caddy:
     image: caddy:2-alpine
     restart: unless-stopped
-    ports:
-      - "80:80"
-      - "443:443"
-    # Caddy сам подхватит твой домен и сделает HTTPS
-    # command: caddy reverse-proxy --from pastamoalboal.shop --to bot:8000
+    profiles: [production]
+    ports: ["80:80", "443:443"]
     volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
       - caddy_data:/data
       - caddy_config:/config
     depends_on:
-      - bot
-  qdrant:
-    image: qdrant/qdrant:latest
-    restart: always
-    ports:
-      - "6333:6333"
-    volumes:
-      - ./qdrant_storage:/qdrant/storage
+      bot:
+        condition: service_healthy
 
 volumes:
   postgres_data:
+  redis_data:
   caddy_data:
   caddy_config:

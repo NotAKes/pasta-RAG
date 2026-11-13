@@ -423,3 +423,13 @@ body {
     animation: none;
   }
 }
+
+/* Accessible controls retain the original warm, compact layout. */
+.details-fields { border: 0; margin: 0; padding: 0; min-width: 0; }
+.details-fields label { display: block; font-size: 12px; font-weight: 600; color: var(--ink); }
+.hotel-field { flex: 3; min-width: 0; }
+.name-field { flex: 7; min-width: 0; }
+.image-placeholder { display: grid; place-items: center; height: 100%; background: var(--field); font-size: 40px; }
+.error-message { padding: 12px; border: 1px solid var(--accent); border-radius: 12px; color: var(--accent-dark); background: var(--card); }
+button:disabled { cursor: not-allowed; opacity: .5; }
+button:focus-visible, a:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }

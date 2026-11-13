@@ -1,133 +1,5 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pastabar · Admin</title>
-  <style>
-    :root {
-      --bg: #f4f5f7;
-      --card: #ffffff;
-      --text: #1c1c1e;
-      --muted: #8a8a8e;
-      --accent: #2cab37;
-      --danger: #e23b3b;
-      --border: #e3e3e8;
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    }
-    header {
-      position: sticky; top: 0; z-index: 10;
-      background: var(--card);
-      border-bottom: 1px solid var(--border);
-      padding: 12px 16px;
-      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
-    }
-    header h1 { font-size: 18px; margin: 0; flex: 1; }
-    .wrap { max-width: 900px; margin: 0 auto; padding: 16px; }
-    .btn {
-      border: none; border-radius: 8px; padding: 10px 16px;
-      font-size: 14px; font-weight: 600; cursor: pointer;
-      background: var(--accent); color: #fff;
-    }
-    .btn.secondary { background: #e9e9ee; color: var(--text); }
-    .btn.danger { background: var(--danger); color: #fff; }
-    .btn:disabled { opacity: .5; cursor: default; }
-    input, textarea {
-      width: 100%; padding: 9px 11px; border: 1px solid var(--border);
-      border-radius: 8px; font-size: 14px; background: #fff; color: var(--text);
-      font-family: inherit;
-    }
-    label { display: block; font-size: 12px; color: var(--muted); margin: 8px 0 3px; font-weight: 600; }
-    .login-box {
-      max-width: 360px; margin: 80px auto; background: var(--card);
-      padding: 24px; border-radius: 14px; border: 1px solid var(--border);
-    }
-    .login-box h2 { margin: 0 0 16px; }
-    .card {
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: 14px; padding: 16px; margin-bottom: 16px;
-      display: grid; grid-template-columns: 120px 1fr; gap: 16px;
-    }
-    .thumb-col { display: flex; flex-direction: column; gap: 8px; align-items: center; }
-    .thumb {
-      width: 120px; height: 90px; object-fit: cover; border-radius: 10px;
-      background: #eee; border: 1px solid var(--border);
-    }
-    .row { display: flex; gap: 10px; }
-    .row > div { flex: 1; }
-    .card-actions { grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: center; }
-    .move-btn { padding: 6px 12px; font-size: 15px; line-height: 1; font-weight: 700; }
-    .pos-input {
-      width: 56px; padding: 6px 4px; text-align: center;
-      font-weight: 700; font-size: 14px;
-    }
-    .pos-input::-webkit-inner-spin-button, .pos-input::-webkit-outer-spin-button { opacity: 1; }
-    .badge { font-size: 11px; color: var(--muted); }
-    .toast {
-      position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-      background: #1c1c1e; color: #fff; padding: 12px 20px; border-radius: 10px;
-      font-size: 14px; opacity: 0; transition: opacity .25s; pointer-events: none; z-index: 100;
-    }
-    .toast.show { opacity: 1; }
-    .banner-card {
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: 14px; padding: 16px; margin-bottom: 16px;
-    }
-    .banner-preview { width: 100%; max-height: 320px; border-radius: 10px; background: #000; display: block; }
-    .hidden { display: none; }
-    .small { font-size: 12px; color: var(--muted); }
-    @media (max-width: 560px) {
-      .card { grid-template-columns: 1fr; }
-      .thumb-col { flex-direction: row; }
-      .thumb { width: 90px; height: 68px; }
-    }
-  </style>
-</head>
-<body>
-  <!-- LOGIN -->
-  <div id="login" class="login-box">
-    <h2>🍝 Admin Login</h2>
-    <label>Admin token</label>
-    <input id="token" type="password" placeholder="Enter admin token" />
-    <div style="height:14px"></div>
-    <button class="btn" style="width:100%" onclick="login()">Sign in</button>
-    <p id="loginError" class="small" style="color:var(--danger)"></p>
-  </div>
-
-  <!-- PANEL -->
-  <div id="panel" class="hidden">
-    <header>
-      <h1>🍝 Menu Admin</h1>
-      <span id="count" class="badge"></span>
-      <button class="btn secondary" onclick="addDish()">+ Add dish</button>
-      <button class="btn" id="saveBtn" onclick="saveAll()">💾 Save all</button>
-      <button class="btn secondary" onclick="logout()">Logout</button>
-    </header>
-    <div class="wrap">
-      <div class="banner-card">
-        <h3 style="margin:0 0 4px">🎬 Banner video</h3>
-        <p class="small" style="margin:0 0 10px">Shown between the contact form and the menu. MP4 (H.264) plays everywhere; max 100MB. Plays muted and looped. Saved immediately — no need to press "Save all".</p>
-        <video id="bannerPreview" class="banner-preview hidden" muted loop playsinline controls></video>
-        <p id="bannerEmpty" class="small">No banner video — the section is hidden on the site.</p>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
-          <button class="btn" id="bannerUploadBtn" onclick="pickBanner()">Upload video</button>
-          <button class="btn danger hidden" id="bannerDeleteBtn" onclick="deleteBanner()">Remove video</button>
-        </div>
-      </div>
-      <div id="list"></div>
-    </div>
-  </div>
-
-  <div id="toast" class="toast"></div>
-
-  <script>
-    const API = ''; // same origin
+window.initializeAdmin = function initializeAdmin({ apiBaseUrl, mediaUrl }) {
+    const API = apiBaseUrl;
     let TOKEN = localStorage.getItem('admin_token') || '';
     let items = []; // raw instruction.json items
 
@@ -166,7 +38,7 @@
         render();
         loadBanner();
         return true;
-      } catch (e) {
+      } catch {
         return false;
       }
     }
@@ -179,7 +51,7 @@
     // dishes. We hide them from the admin UI but keep them in `items` so they
     // are preserved untouched when the menu is saved.
     function isInfoItem(it) {
-      return !!(it.metadata && Array.isArray(it.metadata.categories) && it.metadata.categories[0] === 'info');
+      return !!(it.metadata && Array.isArray(it.metadata.categories) && it.metadata.categories.includes('info'));
     }
 
     function render() {
@@ -195,31 +67,31 @@
         card.className = 'card';
         card.dataset.idx = idx;
         const img = metaVal(it, 'image_url');
-        const imgSrc = img && img.startsWith('http') ? img : (img || '');
+        const imgSrc = mediaUrl(img) || '/logo.png';
         const cats = (it.metadata && Array.isArray(it.metadata.categories)) ? it.metadata.categories.join(', ') : '';
 
         card.innerHTML = `
           <div class="thumb-col">
-            <img class="thumb" src="${imgSrc}" onerror="this.src='https://placehold.co/120x90?text=No+Img'"/>
+            <img class="thumb" src="${escAttr(imgSrc)}" alt="Dish preview" onerror="this.onerror=null;this.src='/logo.png'"/>
             <button class="btn secondary" style="font-size:12px;padding:6px 10px" onclick="pickImage(${idx})">Upload</button>
           </div>
           <div>
             <div class="row">
               <div>
-                <label>Dish name</label>
-                <input value="${escAttr(metaVal(it, 'dish_name'))}" oninput="setMeta(${idx},'dish_name',this.value)"/>
+                <label for="dish_name-${idx}">Dish name</label>
+                <input id="dish_name-${idx}" value="${escAttr(metaVal(it, 'dish_name'))}" oninput="setMeta(${idx},'dish_name',this.value)"/>
               </div>
               <div style="max-width:120px">
-                <label>Price (PHP)</label>
-                <input type="number" value="${metaVal(it, 'price', 0)}" oninput="setMeta(${idx},'price',Number(this.value))"/>
+                <label for="price-${idx}">Price (PHP)</label>
+                <input id="price-${idx}" type="number" min="0" step="0.01" value="${escAttr(metaVal(it, 'price', 0))}" oninput="setMeta(${idx},'price',Number(this.value))"/>
               </div>
             </div>
-            <label>Image URL</label>
-            <input value="${escAttr(metaVal(it, 'image_url'))}" oninput="setMeta(${idx},'image_url',this.value); refreshThumb(${idx},this.value)"/>
-            <label>Categories (comma separated)</label>
-            <input value="${escAttr(cats)}" oninput="setCategories(${idx}, this.value)"/>
-            <label>Text / description</label>
-            <textarea rows="3" oninput="setText(${idx}, this.value)">${escHtml(it.text || '')}</textarea>
+            <label for="image_url-${idx}">Image URL</label>
+            <input id="image_url-${idx}" value="${escAttr(metaVal(it, 'image_url'))}" oninput="setMeta(${idx},'image_url',this.value); refreshThumb(${idx},this.value)"/>
+            <label for="categories-${idx}">Categories (comma separated)</label>
+            <input id="categories-${idx}" value="${escAttr(cats)}" oninput="setCategories(${idx}, this.value)"/>
+            <label for="text-${idx}">Text / description</label>
+            <textarea id="text-${idx}" rows="3" oninput="setText(${idx}, this.value)">${escHtml(it.text || '')}</textarea>
           </div>
           <div class="card-actions">
             <div style="display:flex;align-items:center;gap:8px">
@@ -241,8 +113,8 @@
       document.getElementById('count').textContent = shown + ' dishes';
     }
 
-    function escAttr(s) { return String(s == null ? '' : s).replace(/"/g, '&quot;'); }
-    function escHtml(s) { return String(s == null ? '' : s).replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+    function escAttr(s) { return escHtml(s).replace(/"/g, '&quot;').replace(/'/g, '&#39;'); }
+    function escHtml(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
 
     function ensureMeta(idx) { if (!items[idx].metadata) items[idx].metadata = {}; return items[idx].metadata; }
     function setMeta(idx, key, val) { ensureMeta(idx)[key] = val; }
@@ -252,7 +124,7 @@
     }
     function refreshThumb(idx, val) {
       const card = document.querySelector('.card[data-idx="' + idx + '"]');
-      if (card) card.querySelector('.thumb').src = val || 'https://placehold.co/120x90?text=No+Img';
+      if (card) card.querySelector('.thumb').src = mediaUrl(val) || '/logo.png';
     }
 
     function addDish() {
@@ -320,7 +192,7 @@
             setMeta(idx, 'image_url', j.url);
             render();
             toast('Image uploaded ✓');
-          } catch (e) {
+          } catch {
             toast('Upload failed ✗');
           }
         };
@@ -334,14 +206,14 @@
       document.getElementById('bannerEmpty').classList.toggle('hidden', !!url);
       document.getElementById('bannerDeleteBtn').classList.toggle('hidden', !url);
       v.classList.toggle('hidden', !url);
-      if (url) { v.src = url; } else { v.removeAttribute('src'); v.load(); }
+      if (url) { v.src = mediaUrl(url); } else { v.removeAttribute('src'); v.load(); }
     }
 
     async function loadBanner() {
       try {
         const r = await fetch(API + '/api/banner');
         showBanner(r.ok ? (await r.json()).video_url : null);
-      } catch (e) { showBanner(null); }
+      } catch { showBanner(null); }
     }
 
     function pickBanner() {
@@ -368,7 +240,7 @@
             toast('Banner video uploaded ✓');
           } else {
             let msg = 'Upload failed ✗';
-            try { msg = JSON.parse(xhr.responseText).detail + ' ✗'; } catch (e) {}
+            try { msg = JSON.parse(xhr.responseText).detail + ' ✗'; } catch { /* Keep the generic upload error. */ }
             toast(msg, 3500);
           }
         };
@@ -384,7 +256,7 @@
         if (!r.ok) throw new Error();
         showBanner(null);
         toast('Banner removed ✓');
-      } catch (e) { toast('Remove failed ✗'); }
+      } catch { toast('Remove failed ✗'); }
     }
 
     async function saveAll() {
@@ -399,18 +271,27 @@
         if (!r.ok) throw new Error('save failed');
         const j = await r.json();
         toast('Saved ' + j.count + ' items ✓');
-      } catch (e) {
+      } catch {
         toast('Save failed ✗');
       } finally {
         btn.disabled = false; btn.textContent = '💾 Save all';
       }
     }
 
+    // Existing inline handlers remain available after moving this script into a module.
+    Object.assign(window, {
+      login, logout, addDish, saveAll, pickBanner, deleteBanner, pickImage,
+      setMeta, setText, setCategories, refreshThumb, moveDish, moveDishTo, removeDish,
+    });
+    document.getElementById('token').addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') login();
+    });
+
     // Auto-login if token stored
     if (TOKEN) {
       document.getElementById('token').value = TOKEN;
-      loadMenu();
+      loadMenu().then((ok) => {
+        if (!ok) document.getElementById('loginError').textContent = 'Session unavailable. Sign in to retry.';
+      });
     }
-  </script>
-</body>
-</html>
+}

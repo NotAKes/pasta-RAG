@@ -12,3 +12,11 @@ qdrant_storage/
 __pycache__/
 *.pyc
 .DS_Store
+.venv/
+.idea/
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+data/
+frontend/dist/
+frontend/node_modules/

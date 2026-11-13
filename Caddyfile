@@ -1,10 +1,7 @@
-{
-    # Указываем ZeroSSL как основной сервер, чтобы обойти лимит Let's Encrypt
-    acme_ca https://acme.zerossl.com/v2/DV90
-    email notakes920@outlook.com
-}
-
 pastamoalboal.shop {
+    request_body {
+        max_size 110MB
+    }
+    encode zstd gzip
     reverse_proxy bot:8000
 }
-

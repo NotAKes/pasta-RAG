@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pastabar · Admin</title>
+  <link rel="stylesheet" href="/admin.css" />
+</head>
+<body>
+  <!-- LOGIN -->
+  <div id="login" class="login-box">
+    <h2>🍝 Admin Login</h2>
+    <label for="token">Admin token</label>
+    <input id="token" type="password" autocomplete="current-password" placeholder="Enter admin token" />
+    <div style="height:14px"></div>
+    <button class="btn" style="width:100%" onclick="login()">Sign in</button>
+    <p id="loginError" role="alert" class="small" style="color:var(--danger)"></p>
+  </div>
+
+  <!-- PANEL -->
+  <div id="panel" class="hidden">
+    <header>
+      <h1>🍝 Menu Admin</h1>
+      <span id="count" class="badge"></span>
+      <button class="btn secondary" onclick="addDish()">+ Add dish</button>
+      <button class="btn" id="saveBtn" onclick="saveAll()">💾 Save all</button>
+      <button class="btn secondary" onclick="logout()">Logout</button>
+    </header>
+    <div class="wrap">
+      <div class="banner-card">
+        <h3 style="margin:0 0 4px">🎬 Banner video</h3>
+        <p class="small" style="margin:0 0 10px">Shown between the contact form and the menu. MP4 (H.264) plays everywhere; max 100MB. Plays muted and looped. Saved immediately — no need to press "Save all".</p>
+        <video id="bannerPreview" class="banner-preview hidden" muted loop playsinline controls></video>
+        <p id="bannerEmpty" class="small">No banner video — the section is hidden on the site.</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+          <button class="btn" id="bannerUploadBtn" onclick="pickBanner()">Upload video</button>
+          <button class="btn danger hidden" id="bannerDeleteBtn" onclick="deleteBanner()">Remove video</button>
+        </div>
+      </div>
+      <div id="list"></div>
+    </div>
+  </div>
+
+  <div id="toast" role="status" aria-live="polite" class="toast"></div>
+
+  <script src="/admin.js"></script>
+  <script type="module" src="/src/admin-entry.js"></script>
+</body>
+</html>
